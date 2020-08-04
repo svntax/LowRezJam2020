@@ -6,11 +6,14 @@ onready var charge_time = 0
 onready var mouse_pressed = false
 onready var right_mouse_pressed = false
 
+const STOP_THRESHOLD = 0.0015
 onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
 onready var game_root = get_tree().get_root().get_node("Gameplay")
+onready var top_animation_player = $TopAnimationPlayer
+onready var middle_animation_player = $MiddleAnimationPlayer
 
 func _draw():
 	if charge_time > 0:
@@ -26,6 +29,22 @@ func _physics_process(delta):
 		velocity = velocity.bounce(collision.normal)
 	
 	velocity *= damping
+	
+	# Rough scaling for aniamtion speed based on velocity
+	if velocity.length() > 3:
+		top_animation_player.playback_speed = 5
+		middle_animation_player.playback_speed = 4
+	else:
+		top_animation_player.playback_speed = 0.2 + 1 * velocity.length() / 0.5
+		middle_animation_player.playback_speed = 0.1 + 1 * velocity.length() / 0.5
+	
+	if velocity.length() <= STOP_THRESHOLD:
+		velocity.x = 0
+		velocity.y = 0
+		if top_animation_player.is_playing():
+			top_animation_player.stop()
+		if middle_animation_player.is_playing():
+			middle_animation_player.stop()
 	
 	if reflected_velocity.length() > 0:
 		reflected_velocity = reflected_velocity.linear_interpolate(Vector2.ZERO, 0.12)
@@ -68,6 +87,14 @@ func launch() -> void:
 		power *= 2 + percent
 	vel *= power
 	set_velocity(vel.x, vel.y)
+	if randi() % 2 == 0:
+		top_animation_player.play("clockwise")
+	else:
+		top_animation_player.play_backwards("clockwise")
+	if randi() % 2 == 0:
+		middle_animation_player.play("clockwise")
+	else:
+		middle_animation_player.play_backwards("clockwise")
 
 func set_velocity(x : float, y : float) -> void:
 	velocity.x = x
