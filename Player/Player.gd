@@ -4,6 +4,7 @@ onready var speed = 1
 const MAX_CHARGE_TIME = 1.0
 onready var charge_time = 0
 onready var mouse_pressed = false
+onready var right_mouse_pressed = false
 
 onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
@@ -35,9 +36,16 @@ func _physics_process(delta):
 		if charge_time > MAX_CHARGE_TIME:
 			charge_time = MAX_CHARGE_TIME
 	
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("right_click"):
+		mouse_pressed = false
+		right_mouse_pressed = true
+		charge_time = 0
+	if Input.is_action_just_released("right_click"):
+		right_mouse_pressed = false
+	
+	if !right_mouse_pressed and Input.is_action_just_pressed("click"):
 		mouse_pressed = true
-	if Input.is_action_just_released("click"):
+	if !right_mouse_pressed and mouse_pressed and Input.is_action_just_released("click"):
 		mouse_pressed = false
 		launch()
 		charge_time = 0
