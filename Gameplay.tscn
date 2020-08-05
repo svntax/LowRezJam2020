@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/heart.png" type="Texture" id=2]
 [ext_resource path="res://HpUI.gd" type="Script" id=3]
 [ext_resource path="res://Player/heart_empty.png" type="Texture" id=4]
+[ext_resource path="res://Environment/Pots/PotNormal.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 2 )
@@ -12,6 +13,9 @@ extents = Vector2( 32, 2 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="PotNormal" parent="." instance=ExtResource( 5 )]
+position = Vector2( 13, 30 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 32, 24 )
@@ -37,6 +41,7 @@ margin_bottom = 6.0
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true,
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

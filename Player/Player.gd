@@ -6,6 +6,8 @@ onready var charge_time = 0
 onready var mouse_pressed = false
 onready var right_mouse_pressed = false
 
+const POT_SHATTER_THRESHOLD = 0.8
+
 const STOP_THRESHOLD = 0.0015
 onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
@@ -44,6 +46,14 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity + reflected_velocity)
 	if collision:
 		velocity = velocity.bounce(collision.normal)
+		# Speed scaling for pots
+		if collision.collider.is_in_group("Pots"):
+			print(velocity.length())
+			if velocity.length() >= POT_SHATTER_THRESHOLD:
+				collision.collider.shatter()
+			else:
+				# No recoil
+				pass
 	
 	velocity *= damping
 	
