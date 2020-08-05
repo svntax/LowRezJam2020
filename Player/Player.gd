@@ -11,6 +11,10 @@ onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
+onready var max_hp = 5
+onready var hp = max_hp
+signal hp_changed(value)
+
 onready var game_root = get_tree().get_root().get_node("Gameplay")
 onready var top_animation_player = $TopAnimationPlayer
 onready var middle_animation_player = $MiddleAnimationPlayer
@@ -21,7 +25,20 @@ func _draw():
 		draw_rect(Rect2(-6, -5, 12 * (charge_time / MAX_CHARGE_TIME), 1), Color.green)
 
 func _process(_delta):
-    update()
+	update()
+
+func damage(amount : int) -> void:
+	hp -= amount
+	if hp < 0:
+		hp = 0
+		# TODO: dead
+	emit_signal("hp_changed", hp)
+
+func heal(amount : int) -> void:
+	hp += amount
+	if hp > max_hp:
+		hp = max_hp
+	emit_signal("hp_changed", hp)
 
 func _physics_process(delta):
 	var collision = move_and_collide(velocity + reflected_velocity)
@@ -68,6 +85,12 @@ func _physics_process(delta):
 		mouse_pressed = false
 		launch()
 		charge_time = 0
+	
+	# TODO: debug healing, remove later
+	if Input.is_action_just_pressed("ui_page_down"):
+		damage(1)
+	if Input.is_action_just_pressed("ui_page_up"):
+		heal(1)
 
 # Shoot the player away from the mouse
 func launch() -> void:
