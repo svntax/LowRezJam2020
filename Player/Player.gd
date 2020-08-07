@@ -21,10 +21,13 @@ onready var game_root = get_tree().get_root().get_node("Gameplay")
 onready var top_animation_player = $TopAnimationPlayer
 onready var middle_animation_player = $MiddleAnimationPlayer
 
+const POWER_BAR_BACK = Color("720d0d")
+const POWER_BAR_FRONT = Color("de9751")
+
 func _draw():
 	if charge_time > 0:
-		draw_rect(Rect2(-6, -5, 12, 1), Color.red)
-		draw_rect(Rect2(-6, -5, 12 * (charge_time / MAX_CHARGE_TIME), 1), Color.green)
+		draw_rect(Rect2(-6, -5, 12, 1), POWER_BAR_BACK)
+		draw_rect(Rect2(-6, -5, 12 * (charge_time / MAX_CHARGE_TIME), 1), POWER_BAR_FRONT)
 
 func _process(_delta):
 	update()
