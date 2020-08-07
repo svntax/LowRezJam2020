@@ -1,39 +1,24 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/heart.png" type="Texture" id=2]
 [ext_resource path="res://HpUI.gd" type="Script" id=3]
 [ext_resource path="res://Player/heart_empty.png" type="Texture" id=4]
-[ext_resource path="res://Environment/Pots/PotNormal.tscn" type="PackedScene" id=5]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 2 )
+[ext_resource path="res://LevelGeneration/Rooms/TestRoom.tscn" type="PackedScene" id=6]
 
 [node name="Gameplay" type="Node2D"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="PotNormal" parent="." instance=ExtResource( 5 )]
-position = Vector2( 13, 30 )
+[node name="TestRoom" parent="." instance=ExtResource( 6 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 32, 24 )
+position = Vector2( 84, 38 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 32, 2 )
-shape = SubResource( 1 )
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2( 0, 60 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2( 32, 2 )
-shape = SubResource( 1 )
-
-[node name="HpUI" type="Control" parent="."]
+[node name="HpUI" type="Control" parent="CanvasLayer"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 30.0
@@ -45,7 +30,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HeartsBack" type="HBoxContainer" parent="HpUI"]
+[node name="HeartsBack" type="HBoxContainer" parent="CanvasLayer/HpUI"]
 margin_right = 29.0
 margin_bottom = 5.0
 custom_constants/separation = 1
@@ -54,36 +39,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Heart1" type="TextureRect" parent="HpUI/HeartsBack"]
+[node name="Heart1" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
 margin_right = 5.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart2" type="TextureRect" parent="HpUI/HeartsBack"]
+[node name="Heart2" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
 margin_left = 6.0
 margin_right = 11.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart3" type="TextureRect" parent="HpUI/HeartsBack"]
+[node name="Heart3" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
 margin_left = 12.0
 margin_right = 17.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart4" type="TextureRect" parent="HpUI/HeartsBack"]
+[node name="Heart4" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
 margin_left = 18.0
 margin_right = 23.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart5" type="TextureRect" parent="HpUI/HeartsBack"]
+[node name="Heart5" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
 margin_left = 24.0
 margin_right = 29.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="HeartsFront" type="HBoxContainer" parent="HpUI"]
+[node name="HeartsFront" type="HBoxContainer" parent="CanvasLayer/HpUI"]
 margin_right = 29.0
 margin_bottom = 5.0
 custom_constants/separation = 1
@@ -92,32 +77,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Heart1" type="TextureRect" parent="HpUI/HeartsFront"]
+[node name="Heart1" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
 margin_right = 5.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart2" type="TextureRect" parent="HpUI/HeartsFront"]
+[node name="Heart2" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
 margin_left = 6.0
 margin_right = 11.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart3" type="TextureRect" parent="HpUI/HeartsFront"]
+[node name="Heart3" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
 margin_left = 12.0
 margin_right = 17.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart4" type="TextureRect" parent="HpUI/HeartsFront"]
+[node name="Heart4" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
 margin_left = 18.0
 margin_right = 23.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart5" type="TextureRect" parent="HpUI/HeartsFront"]
+[node name="Heart5" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
 margin_left = 24.0
 margin_right = 29.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
-[connection signal="hp_changed" from="Player" to="HpUI" method="_on_Player_hp_changed"]
+[connection signal="hp_changed" from="Player" to="CanvasLayer/HpUI" method="_on_Player_hp_changed"]

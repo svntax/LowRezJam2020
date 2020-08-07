@@ -48,7 +48,6 @@ func _physics_process(delta):
 		velocity = velocity.bounce(collision.normal)
 		# Speed scaling for pots
 		if collision.collider.is_in_group("Pots"):
-			print(velocity.length())
 			if velocity.length() >= POT_SHATTER_THRESHOLD:
 				collision.collider.shatter()
 			else:
