@@ -30,10 +30,6 @@ position = Vector2( 39, 24 )
 position = Vector2( 64, 12 )
 draw_bottom_line = true
 
-[node name="NorthDoor2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 48, -10 )
-draw_bottom_line = true
-
 [node name="WestDoor" parent="." instance=ExtResource( 3 )]
 position = Vector2( 12, 64 )
 rotation = -1.57079

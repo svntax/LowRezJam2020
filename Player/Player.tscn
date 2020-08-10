@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/player_base.png" type="Texture" id=2]
 [ext_resource path="res://Player/player_middle.png" type="Texture" id=3]
 [ext_resource path="res://Player/player_top.png" type="Texture" id=4]
+[ext_resource path="res://Player/player_base_white.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
@@ -42,6 +43,39 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 1, 1 ), Vector2( 0, 1 ) ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "flash_white"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DashTop:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0.34902 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "rest"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("DashTop:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 1 )
@@ -64,6 +98,10 @@ texture = ExtResource( 3 )
 [node name="Top" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 
+[node name="DashTop" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 5 )
+
 [node name="MiddleAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/clockwise = SubResource( 2 )
 
@@ -75,3 +113,28 @@ current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 editor_draw_drag_margin = true
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+show_behind_parent = true
+amount = 2
+lifetime = 0.2
+speed_scale = 2.0
+local_coords = false
+texture = ExtResource( 2 )
+gravity = Vector2( 0, 0 )
+
+[node name="DashParticles" type="CPUParticles2D" parent="."]
+modulate = Color( 1, 1, 1, 0.133333 )
+show_behind_parent = true
+emitting = false
+amount = 4
+lifetime = 0.2
+speed_scale = 2.0
+local_coords = false
+texture = ExtResource( 5 )
+gravity = Vector2( 0, 0 )
+
+[node name="DashAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/flash_white = SubResource( 4 )
+anims/rest = SubResource( 5 )

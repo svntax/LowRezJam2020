@@ -6,7 +6,7 @@ onready var charge_time = 0
 onready var mouse_pressed = false
 onready var right_mouse_pressed = false
 
-const POT_SHATTER_THRESHOLD = 0.8
+const DASH_MIN_SPEED = 0.8
 
 const STOP_THRESHOLD = 0.0015
 onready var damping = 0.95
@@ -20,6 +20,10 @@ signal hp_changed(value)
 onready var game_root = get_tree().get_root().get_node("Gameplay")
 onready var top_animation_player = $TopAnimationPlayer
 onready var middle_animation_player = $MiddleAnimationPlayer
+onready var trail_particles = $TrailParticles
+onready var dash_particles = $DashParticles
+onready var dash_animation_player = $DashAnimationPlayer
+onready var dash_top_sprite = $DashTop
 
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
@@ -51,13 +55,30 @@ func _physics_process(delta):
 		velocity = velocity.bounce(collision.normal)
 		# Speed scaling for pots
 		if collision.collider.is_in_group("Pots"):
-			if velocity.length() >= POT_SHATTER_THRESHOLD:
+			if velocity.length() >= DASH_MIN_SPEED:
 				collision.collider.shatter()
 			else:
 				# No recoil
 				pass
 	
 	velocity *= damping
+	
+	# Dash effect logic
+	if velocity.length() >= DASH_MIN_SPEED:
+		trail_particles.emitting = false
+		dash_particles.emitting = true
+		if dash_animation_player.current_animation != "flash_white":
+			dash_animation_player.play("flash_white", -1, 1.5)
+	elif velocity.length() >= DASH_MIN_SPEED / 2:
+		trail_particles.emitting = true
+		dash_particles.emitting = false
+		if dash_animation_player.current_animation == "flash_white":
+			dash_animation_player.play("rest")
+	else:
+		trail_particles.emitting = false
+		dash_particles.emitting = false
+		if dash_animation_player.current_animation == "flash_white":
+			dash_animation_player.play("rest")
 	
 	# Rough scaling for aniamtion speed based on velocity
 	if velocity.length() > 3:
