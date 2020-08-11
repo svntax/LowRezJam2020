@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Enemies/poolball_outline.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/PoolBallEnemy.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 4.0
+
+[node name="PoolBallEnemy" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Base" type="Sprite" parent="."]
+light_mask = 3
+texture = ExtResource( 1 )

@@ -60,6 +60,8 @@ func _physics_process(delta):
 			else:
 				# No recoil
 				pass
+		elif collision.collider.has_method("knockback"):
+			collision.collider.knockback(velocity * 0.8)
 	
 	velocity *= damping
 	
