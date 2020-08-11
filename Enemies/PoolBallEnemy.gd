@@ -6,12 +6,13 @@ onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
-enum States {IDLE, WALK, CHARGE, ROLL}
+enum States {IDLE, WALK, CHARGE, ROLL, POP}
 onready var state = States.IDLE
 
 onready var roll_sprite = $Roll
 onready var idle_sprite = $Idle
 onready var walk_sprite = $Walk
+onready var head_pop_sprite = $HeadPop
 onready var animation_player = $AnimationPlayer
 onready var walk_duration_timer = $WalkDurationTImer
 onready var walk_trigger_timer = $WalkTriggerTimer
@@ -49,29 +50,43 @@ func state_logic():
 		pass
 	elif state == States.ROLL:
 		if velocity.x == 0 and velocity.y == 0:
-			set_state(States.IDLE)
+			set_state(States.POP)
 
 func enter_state(new_state):
 	match new_state:
 		States.IDLE:
+			if head_pop_sprite.visible:
+				idle_sprite.show()
+				head_pop_sprite.hide()
 			set_velocity(Vector2.ZERO)
 			if animation_player.current_animation != "idle":
 				animation_player.play("idle", -1, 0.5)
 		States.WALK:
+			if head_pop_sprite.visible:
+				walk_sprite.show()
+				head_pop_sprite.hide()
 			if animation_player.current_animation != "walk":
 				animation_player.play("walk")
 			walk_to_random()
 		States.CHARGE:
 			set_velocity(Vector2.ZERO)
+			head_pop_sprite.hide()
 		States.ROLL:
 			animation_player.stop()
 			roll_sprite.show()
 			idle_sprite.hide()
 			walk_sprite.hide()
+			head_pop_sprite.hide()
+		States.POP:
+			animation_player.play("pop_out")
 
 func exit_state(previous_state):
 	if previous_state == States.ROLL:
 		roll_sprite.hide()
+	elif previous_state == States.WALK:
+		walk_sprite.frame = 0
+	elif previous_state == States.IDLE:
+		idle_sprite.frame = 0
 
 func set_state(new_state):
 	var previous_state = state
@@ -101,4 +116,8 @@ func _on_WalkTriggerTimer_timeout():
 
 func _on_WalkDurationTImer_timeout():
 	if state == States.WALK:
+		set_state(States.IDLE)
+
+func _on_AnimationPlayer_animation_finished(anim):
+	if anim == "pop_out":
 		set_state(States.IDLE)
