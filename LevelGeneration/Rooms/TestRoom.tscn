@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Environment/Pots/PotNormal.tscn" type="PackedScene" id=2]
 [ext_resource path="res://LevelGeneration/Door.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Enemies/PoolBallEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemies/RollerEnemy.tscn" type="PackedScene" id=5]
 
 [node name="TestRoom" type="Node2D"]
 __meta__ = {
@@ -46,3 +47,7 @@ rotation = -3.14159
 
 [node name="PoolBallEnemy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 94, 38 )
+
+[node name="RollerEnemy" parent="." instance=ExtResource( 5 )]
+position = Vector2( 96, 95 )
+WALK_SPEED = 0.15

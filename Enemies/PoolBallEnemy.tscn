@@ -6,11 +6,10 @@
 [ext_resource path="res://Enemies/enemy_basic_walk.png" type="Texture" id=4]
 [ext_resource path="res://Enemies/enemy_basic_head.png" type="Texture" id=5]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=3]
 radius = 3.5
 
-[sub_resource type="Animation" id=2]
-resource_name = "idle"
+[sub_resource type="Animation" id=4]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -66,11 +65,9 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "roll"
+[sub_resource type="Animation" id=6]
 
-[sub_resource type="Animation" id=3]
-resource_name = "walk"
+[sub_resource type="Animation" id=7]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -126,10 +123,11 @@ tracks/3/keys = {
 script = ExtResource( 3 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Idle" type="Sprite" parent="."]
 light_mask = 3
+use_parent_material = true
 position = Vector2( 0, -1 )
 texture = ExtResource( 2 )
 hframes = 4
@@ -153,10 +151,10 @@ light_mask = 3
 texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 2 )
+anims/idle = SubResource( 4 )
 anims/pop_out = SubResource( 5 )
-anims/roll = SubResource( 4 )
-anims/walk = SubResource( 3 )
+anims/roll = SubResource( 6 )
+anims/walk = SubResource( 7 )
 
 [node name="WalkTriggerTimer" type="Timer" parent="."]
 wait_time = 2.0

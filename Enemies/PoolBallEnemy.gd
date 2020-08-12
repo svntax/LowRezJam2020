@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 const STOP_THRESHOLD = 0.0015
-const WALK_SPEED = 0.1
-onready var damping = 0.95
+export (float) var WALK_SPEED = 0.1
+export (float) var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
