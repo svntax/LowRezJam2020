@@ -24,6 +24,7 @@ onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
 onready var dash_animation_player = $DashAnimationPlayer
 onready var dash_top_sprite = $DashTop
+onready var arrows = $Arrows
 
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
@@ -120,6 +121,12 @@ func _physics_process(delta):
 		mouse_pressed = false
 		launch()
 		charge_time = 0
+	
+	arrows.rotation = arrows.global_position.angle_to_point(get_global_mouse_position()) + PI/2
+	if charge_time > 0:
+		arrows.visible = true
+	else:
+		arrows.visible = false
 	
 	# TODO: debug healing, remove later
 	if Input.is_action_just_pressed("ui_page_down"):
