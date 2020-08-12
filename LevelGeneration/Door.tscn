@@ -29,3 +29,11 @@ texture = ExtResource( 3 )
 [node name="Sprite2" type="Sprite" parent="Top"]
 position = Vector2( 4, -8 )
 texture = ExtResource( 3 )
+
+[node name="Sprite3" type="Sprite" parent="Top"]
+position = Vector2( 12, -8 )
+texture = ExtResource( 3 )
+
+[node name="Sprite4" type="Sprite" parent="Top"]
+position = Vector2( -12, -8 )
+texture = ExtResource( 3 )

@@ -32,7 +32,7 @@ func shatter() -> void:
 	# TODO: loot drop
 	sprite_normal.hide()
 	collision_shape.disabled = true
-	for i in range(2):
+	for _i in range(2):
 		var shard = PotNormalShard.instance()
 		add_child(shard)
 		var vel = Vector2(0.7, 0).rotated(rand_range(0, 2*PI))
