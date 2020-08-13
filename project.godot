@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Reference",
+"class": "GridCell",
+"language": "GDScript",
+"path": "res://LevelGeneration/GridCell.gd"
+}, {
+"base": "Reference",
+"class": "GridTree",
+"language": "GDScript",
+"path": "res://LevelGeneration/GridTree.gd"
+} ]
 _global_script_class_icons={
-
+"GridCell": "",
+"GridTree": ""
 }
 
 [application]

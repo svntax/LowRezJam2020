@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready():
+	randomize()
 	# Default size 512x512
 	OS.window_size = Vector2(512, 512)
 	# Center the window after resizing
