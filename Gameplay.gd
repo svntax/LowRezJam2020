@@ -4,6 +4,7 @@ const ROOM_TILES_SIZE = 16 # In tiles
 const ROOM_SIZE = ROOM_TILES_SIZE * 8
 
 const RoomBase = preload("res://LevelGeneration/RoomBase.tscn")
+const StartingRoom = preload("res://LevelGeneration/Rooms/StartingRoom.tscn")
 
 onready var dungeon_width = 10
 onready var dungeon_height = 10
@@ -41,7 +42,7 @@ func generate_dungeon():
 	var spawn_pos = start.get_cell_position() * ROOM_SIZE + Vector2(ROOM_SIZE / 2, ROOM_SIZE / 2)
 	player.global_position = spawn_pos
 	# Recursively generate adjacent rooms starting at the root
-	var num_rooms = int(rand_range(8, 12))
+	var num_rooms = int(rand_range(7, 12))
 	dungeon.generate_rooms(num_rooms)
 	# Actually place the room instances
 	place_room_instances()
@@ -69,6 +70,11 @@ func place_room(current_cell):
 			# Connect the current cell to the neighbor
 			base.open_passage(Globals.DIRECTIONS[i])
 			place_room(neighbor_cell)
+	
+	# Generate the room's layout
+	if current_cell == dungeon.root:
+		var layout = StartingRoom.instance()
+		base.add_child(layout)
 
 func get_dungeon():
 	return dungeon

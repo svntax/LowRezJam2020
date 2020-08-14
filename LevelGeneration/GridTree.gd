@@ -31,6 +31,8 @@ func generate_rooms(num_rooms: int):
 func generate_neighbors(current_room):
 	if room_count >= room_limit:
 		return
+	if current_room == null:
+		return
 	
 	var neighbor1 = add_random_neighbor(current_room)
 	var neighbor2 = add_random_neighbor(current_room)
