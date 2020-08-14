@@ -5,6 +5,10 @@ const ROOM_SIZE = ROOM_TILES_SIZE * 8
 
 const RoomBase = preload("res://LevelGeneration/RoomBase.tscn")
 const StartingRoom = preload("res://LevelGeneration/Rooms/StartingRoom.tscn")
+const EnemyRooms = [
+	preload("res://LevelGeneration/Rooms/EnemiesRoom01.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom02.tscn"),
+]
 
 onready var dungeon_width = 10
 onready var dungeon_height = 10
@@ -74,6 +78,11 @@ func place_room(current_cell):
 	# Generate the room's layout
 	if current_cell == dungeon.root:
 		var layout = StartingRoom.instance()
+		base.add_child(layout)
+	else:
+		# Basic enemy room
+		var choice = randi() % EnemyRooms.size()
+		var layout = EnemyRooms[choice].instance()
 		base.add_child(layout)
 
 func get_dungeon():

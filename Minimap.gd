@@ -1,8 +1,8 @@
 extends Node2D
 
 #const BG_COLOR = Color("180d2f")
-const DOOR_COLOR = Color("686b72")
-const ROOM_COLOR = Color("8b97b6")
+const DOOR_COLOR = Color("8b97b6")
+const ROOM_COLOR = Color("ffffff")
 const BLINK_COLOR = Color("ecab11")
 onready var player_color = ROOM_COLOR
 
