@@ -46,10 +46,12 @@ func deal_damage(other):
 	damage_cooldown_timer.start()
 
 func _on_PlayerDetect_body_entered(body):
-	player_nearby = true
+	if body.is_in_group("Players"):
+		player_nearby = true
 
 func _on_PlayerDetect_body_exited(body):
-	player_nearby = false
+	if body.is_in_group("Players"):
+		player_nearby = false
 
 func _on_AnimationPlayer_animation_finished(anim):
 	._on_AnimationPlayer_animation_finished(anim)
