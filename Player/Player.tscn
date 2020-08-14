@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/player_base.png" type="Texture" id=2]
@@ -15,7 +15,7 @@ resource_name = "clockwise"
 length = 0.8
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Middle:position")
+tracks/0/path = NodePath("Body/Middle:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -32,7 +32,7 @@ resource_name = "clockwise"
 length = 0.8
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Top:position")
+tracks/0/path = NodePath("Body/Top:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -49,7 +49,7 @@ resource_name = "flash_white"
 length = 0.2
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("DashTop:modulate")
+tracks/0/path = NodePath("Body/DashTop:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -65,7 +65,7 @@ tracks/0/keys = {
 resource_name = "rest"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("DashTop:modulate")
+tracks/0/path = NodePath("Body/DashTop:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -77,7 +77,25 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[node name="Player" type="KinematicBody2D"]
+[sub_resource type="Animation" id=6]
+resource_name = "damage"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 0.313726, 0.313726, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=[
+"Players",
+]]
 collision_layer = 2
 script = ExtResource( 1 )
 
@@ -96,19 +114,21 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Base" type="Sprite" parent="."]
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Base" type="Sprite" parent="Body"]
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Middle" type="Sprite" parent="."]
+[node name="Middle" type="Sprite" parent="Body"]
 texture = ExtResource( 3 )
 
-[node name="Top" type="Sprite" parent="."]
+[node name="Top" type="Sprite" parent="Body"]
 texture = ExtResource( 4 )
 
-[node name="DashTop" type="Sprite" parent="."]
+[node name="DashTop" type="Sprite" parent="Body"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 5 )
 
@@ -148,3 +168,6 @@ gravity = Vector2( 0, 0 )
 [node name="DashAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/flash_white = SubResource( 4 )
 anims/rest = SubResource( 5 )
+
+[node name="DamageAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/damage = SubResource( 6 )
