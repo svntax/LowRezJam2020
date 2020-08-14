@@ -133,6 +133,12 @@ func _physics_process(delta):
 		damage(1)
 	if Input.is_action_just_pressed("ui_page_up"):
 		heal(1)
+	# TODO: debug zoom out, remove later
+	if Input.is_action_just_pressed("ui_focus_next"):
+		if $Camera2D.zoom.x == 1:
+			$Camera2D.zoom = Vector2(12, 12)
+		else:
+			$Camera2D.zoom = Vector2(1, 1)
 
 # Shoot the player away from the mouse
 func launch() -> void:

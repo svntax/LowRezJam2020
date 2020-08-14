@@ -15,6 +15,11 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Rooms" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="TestRoom" parent="." instance=ExtResource( 6 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
@@ -112,7 +117,13 @@ texture = ExtResource( 2 )
 
 [node name="Minimap" type="Node2D" parent="UILayer"]
 script = ExtResource( 7 )
+player_path = NodePath("../../Player")
+
+[node name="BlinkTimer" type="Timer" parent="UILayer/Minimap"]
+wait_time = 0.5
+autostart = true
 
 [node name="PauseMenu" parent="UILayer" instance=ExtResource( 8 )]
 visible = false
 [connection signal="hp_changed" from="Player" to="UILayer/HpUI" method="_on_Player_hp_changed"]
+[connection signal="timeout" from="UILayer/Minimap/BlinkTimer" to="UILayer/Minimap" method="_on_BlinkTimer_timeout"]

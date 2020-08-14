@@ -58,7 +58,7 @@ func add_random_neighbor(current_cell):
 	if empty_neighbor_found:
 		var new_cell = GridCell.new(target_pos.x, target_pos.y)
 		grid[target_pos.x][target_pos.y] = new_cell
-		new_cell.set_parent(current_cell)
+		new_cell.set_parent_cell(current_cell)
 		current_cell.add_child_towards(new_cell, Globals.DIRECTIONS[dir])
 		room_count += 1
 		return new_cell

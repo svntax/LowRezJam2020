@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://LevelGeneration/RoomBase.gd" type="Script" id=2]
+[ext_resource path="res://LevelGeneration/Door.gd" type="Script" id=3]
+[ext_resource path="res://LevelGeneration/Door.tscn" type="PackedScene" id=4]
+
+[node name="RoomBase" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="BaseTiles" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 8, 8 )
+cell_quadrant_size = 4
+cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 65536, 0, 0, 65537, 3, 0, 65538, 4, 0, 65539, 4, 0, 65540, 4, 0, 65541, 4, 0, 65542, 4, 0, 65543, 4, 0, 65544, 4, 0, 65545, 4, 0, 65546, 4, 0, 65547, 4, 0, 65548, 4, 0, 65549, 4, 0, 65550, -1610612733, 0, 65551, 0, 0, 131072, 0, 0, 131073, -1073741820, 0, 131086, -1610612732, 0, 131087, 0, 0, 196608, 0, 0, 196609, -1073741820, 0, 196622, -1610612732, 0, 196623, 0, 0, 262144, 0, 0, 262145, -1073741820, 0, 262158, -1610612732, 0, 262159, 0, 0, 327680, 0, 0, 327681, -1073741820, 0, 327694, -1610612732, 0, 327695, 0, 0, 393216, 0, 0, 393217, -1073741820, 0, 393230, -1610612732, 0, 393231, 0, 0, 458752, 0, 0, 458753, -1073741820, 0, 458766, -1610612732, 0, 458767, 0, 0, 524288, 0, 0, 524289, -1073741820, 0, 524302, -1610612732, 0, 524303, 0, 0, 589824, 0, 0, 589825, -1073741820, 0, 589838, -1610612732, 0, 589839, 0, 0, 655360, 0, 0, 655361, -1073741820, 0, 655374, -1610612732, 0, 655375, 0, 0, 720896, 0, 0, 720897, -1073741820, 0, 720910, -1610612732, 0, 720911, 0, 0, 786432, 0, 0, 786433, -1073741820, 0, 786446, -1610612732, 0, 786447, 0, 0, 851968, 0, 0, 851969, -1073741820, 0, 851982, -1610612732, 0, 851983, 0, 0, 917504, 0, 0, 917505, -1073741821, 0, 917506, 1610612740, 0, 917507, 1610612740, 0, 917508, 1610612740, 0, 917509, 1610612740, 0, 917510, 1610612740, 0, 917511, 1610612740, 0, 917512, 1610612740, 0, 917513, 1610612740, 0, 917514, 1610612740, 0, 917515, 1610612740, 0, 917516, 1610612740, 0, 917517, 1610612740, 0, 917518, 1610612739, 0, 917519, 0, 0, 983040, 0, 0, 983041, 0, 0, 983042, 0, 0, 983043, 0, 0, 983044, 0, 0, 983045, 0, 0, 983046, 0, 0, 983047, 0, 0, 983048, 0, 0, 983049, 0, 0, 983050, 0, 0, 983051, 0, 0, 983052, 0, 0, 983053, 0, 0, 983054, 0, 0, 983055, 0, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NorthDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 12 )
+script = ExtResource( 3 )
+draw_bottom_line = true
+
+[node name="WestDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 12, 64 )
+rotation = -1.57079
+script = ExtResource( 3 )
+draw_bottom_line = true
+
+[node name="EastDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 116, 64 )
+rotation = -4.71238
+script = ExtResource( 3 )
+
+[node name="SouthDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 116 )
+rotation = -3.14159
+script = ExtResource( 3 )

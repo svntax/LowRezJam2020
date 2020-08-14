@@ -46,12 +46,8 @@ func get_child_towards(dir: Vector2):
 	elif dir == Vector2.RIGHT:
 		return child_right
 
-func get_children():
-	var children = [child_up, child_down, child_left, child_right]
-	return children
-
-func set_parent(other):
+func set_parent_cell(other):
 	parent = other
 
-func get_parent():
+func get_parent_cell():
 	return parent
