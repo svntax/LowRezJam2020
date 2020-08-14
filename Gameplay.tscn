@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/heart.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Player/heart_empty.png" type="Texture" id=4]
 [ext_resource path="res://Gameplay.gd" type="Script" id=5]
 [ext_resource path="res://LevelGeneration/Rooms/TestRoom.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Minimap.gd" type="Script" id=7]
+[ext_resource path="res://Menus/PauseMenu.tscn" type="PackedScene" id=8]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource( 5 )
@@ -18,9 +20,9 @@ __meta__ = {
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 84, 38 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="HpUI" type="Control" parent="CanvasLayer"]
+[node name="HpUI" type="Control" parent="UILayer"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 30.0
@@ -32,7 +34,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HeartsBack" type="HBoxContainer" parent="CanvasLayer/HpUI"]
+[node name="HeartsBack" type="HBoxContainer" parent="UILayer/HpUI"]
 margin_right = 29.0
 margin_bottom = 5.0
 custom_constants/separation = 1
@@ -41,36 +43,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Heart1" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
+[node name="Heart1" type="TextureRect" parent="UILayer/HpUI/HeartsBack"]
 margin_right = 5.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart2" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
+[node name="Heart2" type="TextureRect" parent="UILayer/HpUI/HeartsBack"]
 margin_left = 6.0
 margin_right = 11.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart3" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
+[node name="Heart3" type="TextureRect" parent="UILayer/HpUI/HeartsBack"]
 margin_left = 12.0
 margin_right = 17.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart4" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
+[node name="Heart4" type="TextureRect" parent="UILayer/HpUI/HeartsBack"]
 margin_left = 18.0
 margin_right = 23.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="Heart5" type="TextureRect" parent="CanvasLayer/HpUI/HeartsBack"]
+[node name="Heart5" type="TextureRect" parent="UILayer/HpUI/HeartsBack"]
 margin_left = 24.0
 margin_right = 29.0
 margin_bottom = 5.0
 texture = ExtResource( 4 )
 
-[node name="HeartsFront" type="HBoxContainer" parent="CanvasLayer/HpUI"]
+[node name="HeartsFront" type="HBoxContainer" parent="UILayer/HpUI"]
 margin_right = 29.0
 margin_bottom = 5.0
 custom_constants/separation = 1
@@ -79,32 +81,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Heart1" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
+[node name="Heart1" type="TextureRect" parent="UILayer/HpUI/HeartsFront"]
 margin_right = 5.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart2" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
+[node name="Heart2" type="TextureRect" parent="UILayer/HpUI/HeartsFront"]
 margin_left = 6.0
 margin_right = 11.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart3" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
+[node name="Heart3" type="TextureRect" parent="UILayer/HpUI/HeartsFront"]
 margin_left = 12.0
 margin_right = 17.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart4" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
+[node name="Heart4" type="TextureRect" parent="UILayer/HpUI/HeartsFront"]
 margin_left = 18.0
 margin_right = 23.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
 
-[node name="Heart5" type="TextureRect" parent="CanvasLayer/HpUI/HeartsFront"]
+[node name="Heart5" type="TextureRect" parent="UILayer/HpUI/HeartsFront"]
 margin_left = 24.0
 margin_right = 29.0
 margin_bottom = 5.0
 texture = ExtResource( 2 )
-[connection signal="hp_changed" from="Player" to="CanvasLayer/HpUI" method="_on_Player_hp_changed"]
+
+[node name="Minimap" type="Node2D" parent="UILayer"]
+script = ExtResource( 7 )
+
+[node name="PauseMenu" parent="UILayer" instance=ExtResource( 8 )]
+visible = false
+[connection signal="hp_changed" from="Player" to="UILayer/HpUI" method="_on_Player_hp_changed"]

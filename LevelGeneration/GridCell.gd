@@ -20,15 +20,6 @@ func _init(cell_x: int, cell_y: int):
 func has_empty_neighbor() -> bool:
 	return child_up == null or child_down == null or child_left == null or child_right == null
 
-func get_random_empty_neighbor():
-	var empty_neighbors = []
-	if child_up == null: empty_neighbors.append(child_up)
-	if child_down == null: empty_neighbors.append(child_down)
-	if child_left == null: empty_neighbors.append(child_left)
-	if child_right == null: empty_neighbors.append(child_right)
-	var i = randi() % empty_neighbors.size()
-	var neighbor = empty_neighbors[i]
-
 func add_child_towards(new_child, dir: Vector2):
 	if new_child == parent:
 		return
