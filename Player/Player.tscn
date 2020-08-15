@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/player_base.png" type="Texture" id=2]
@@ -93,6 +93,108 @@ tracks/0/keys = {
 "values": [ Color( 1, 0.313726, 0.313726, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "falling"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:collision_layer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.2, 0.2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TrailParticles:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("DashParticles:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "respawn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:collision_layer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false, true ]
+}
+
 [node name="Player" type="KinematicBody2D" groups=[
 "Players",
 ]]
@@ -109,6 +211,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 7, 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -142,9 +245,9 @@ anims/clockwise = SubResource( 3 )
 current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
-editor_draw_drag_margin = true
 
 [node name="TrailParticles" type="CPUParticles2D" parent="."]
+visible = false
 modulate = Color( 1, 1, 1, 0.498039 )
 show_behind_parent = true
 amount = 2
@@ -155,6 +258,7 @@ texture = ExtResource( 2 )
 gravity = Vector2( 0, 0 )
 
 [node name="DashParticles" type="CPUParticles2D" parent="."]
+visible = false
 modulate = Color( 1, 1, 1, 0.133333 )
 show_behind_parent = true
 emitting = false
@@ -171,3 +275,6 @@ anims/rest = SubResource( 5 )
 
 [node name="DamageAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damage = SubResource( 6 )
+anims/falling = SubResource( 7 )
+anims/respawn = SubResource( 8 )
+[connection signal="animation_finished" from="DamageAnimationPlayer" to="." method="_on_DamageAnimationPlayer_animation_finished"]

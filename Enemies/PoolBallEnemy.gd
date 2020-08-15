@@ -8,7 +8,7 @@ export (float) var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
-enum States {IDLE, WALK, CHARGE, ROLL, POP}
+enum States {IDLE, WALK, CHARGE, ROLL, POP, FALLING}
 onready var state = States.IDLE
 
 onready var roll_sprite = $Body/Roll
@@ -22,7 +22,6 @@ onready var walk_trigger_timer = $WalkTriggerTimer
 
 onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
-onready var dash_animation_player = $DashAnimationPlayer
 
 func _ready():
 	walk_trigger_timer.wait_time = rand_range(1, 4)
@@ -115,6 +114,18 @@ func enter_state(new_state):
 			flash_sprite.modulate.a = 0
 		States.POP:
 			animation_player.play("pop_out")
+		States.FALLING:
+			collision_layer = 0
+			collision_mask = 0
+			trail_particles.emitting = false
+			dash_particles.emitting = false
+			flash_sprite.modulate.a = 0
+			set_velocity(Vector2.ZERO)
+			animation_player.play("falling")
+			idle_sprite.hide()
+			roll_sprite.show()
+			walk_sprite.hide()
+			head_pop_sprite.hide()
 
 func exit_state(previous_state):
 	if previous_state == States.ROLL:
@@ -165,6 +176,11 @@ func _on_WalkDurationTImer_timeout():
 	if state == States.WALK:
 		set_state(States.IDLE)
 
+func fall_in_hole():
+	set_state(States.FALLING)
+
 func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
 		set_state(States.IDLE)
+	elif anim == "falling":
+		queue_free()

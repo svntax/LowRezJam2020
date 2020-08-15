@@ -13,11 +13,15 @@ const STOP_THRESHOLD = 0.0015
 onready var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
+onready var velocity_before_falling = Vector2()
 
 onready var max_hp = 5
 onready var hp = max_hp
 signal hp_changed(value)
 onready var damage_immune = false
+
+enum States {NORMAL, FALLING}
+onready var state
 
 onready var game_root = get_tree().get_root().get_node("Gameplay")
 onready var top_animation_player = $TopAnimationPlayer
@@ -29,9 +33,13 @@ onready var dash_top_sprite = $Body/DashTop
 onready var arrows = $Arrows
 onready var damage_animation_player = $DamageAnimationPlayer
 onready var camera = $Camera2D
+onready var body = $Body
 
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
+
+func _ready():
+	set_state(States.NORMAL)
 
 func _draw():
 	if charge_time > 0:
@@ -42,7 +50,7 @@ func _process(_delta):
 	update()
 
 func damage(amount : int) -> void:
-	if damage_immune:
+	if damage_immune or damage_animation_player.current_animation == "falling":
 		return
 	
 	hp -= amount
@@ -60,43 +68,8 @@ func heal(amount : int) -> void:
 	emit_signal("hp_changed", hp)
 
 func _physics_process(delta):
-	var collision = move_and_collide(velocity + reflected_velocity)
-	if collision:
-		velocity = velocity.bounce(collision.normal)
-		if velocity.length() > MAX_SPEED:
-			velocity = velocity.clamped(MAX_SPEED)
-		# Speed scaling for pots
-		if collision.collider.is_in_group("Pots"):
-			if velocity.length() >= DASH_MIN_SPEED:
-				collision.collider.shatter()
-			else:
-				# No recoil
-				pass
-		elif collision.collider.has_method("knockback"):
-			collision.collider.knockback(velocity * 0.8)
-		# Dash-based damage dealing logic
-		if velocity.length() >= DASH_MIN_SPEED:
-			if collision.collider.has_method("dash_damage"):
-				collision.collider.dash_damage()
-	
-	velocity *= damping
-	
-	# Dash effect logic
-	if velocity.length() >= DASH_MIN_SPEED:
-		trail_particles.emitting = false
-		dash_particles.emitting = true
-		if dash_animation_player.current_animation != "flash_white":
-			dash_animation_player.play("flash_white", -1, 1.5)
-	elif velocity.length() >= DASH_MIN_SPEED / 2:
-		trail_particles.emitting = true
-		dash_particles.emitting = false
-		if dash_animation_player.current_animation == "flash_white":
-			dash_animation_player.play("rest")
-	else:
-		trail_particles.emitting = false
-		dash_particles.emitting = false
-		if dash_animation_player.current_animation == "flash_white":
-			dash_animation_player.play("rest")
+	if state == States.NORMAL:
+		normal_state_logic()
 	
 	# Rough scaling for aniamtion speed based on velocity
 	if velocity.length() > 3:
@@ -115,9 +88,6 @@ func _physics_process(delta):
 			top_animation_player.stop()
 		if middle_animation_player.is_playing():
 			middle_animation_player.stop()
-	
-	if reflected_velocity.length() > 0:
-		reflected_velocity = reflected_velocity.linear_interpolate(Vector2.ZERO, 0.12)
 	
 	# Holding click charges the power bar
 	if mouse_pressed:
@@ -140,7 +110,7 @@ func _physics_process(delta):
 		charge_time = 0
 	
 	arrows.rotation = arrows.global_position.angle_to_point(get_global_mouse_position()) + PI/2
-	if charge_time > 0:
+	if charge_time > 0 and state == States.NORMAL:
 		arrows.visible = true
 	else:
 		arrows.visible = false
@@ -156,6 +126,72 @@ func _physics_process(delta):
 			$Camera2D.zoom = Vector2(12, 12)
 		else:
 			$Camera2D.zoom = Vector2(1, 1)
+
+func normal_state_logic():
+	var collision = move_and_collide(velocity + reflected_velocity)
+	if collision:
+		velocity = velocity.bounce(collision.normal)
+		if velocity.length() > MAX_SPEED:
+			velocity = velocity.clamped(MAX_SPEED)
+		# Speed scaling for pots
+		if collision.collider.is_in_group("Pots"):
+			if velocity.length() >= DASH_MIN_SPEED:
+				collision.collider.shatter()
+			else:
+				# No recoil
+				pass
+		elif collision.collider.has_method("knockback"):
+			collision.collider.knockback(velocity * 0.8)
+		# Dash-based damage dealing logic
+		if velocity.length() >= DASH_MIN_SPEED:
+			if collision.collider.has_method("dash_damage"):
+				collision.collider.dash_damage()
+	
+	velocity *= damping
+	if reflected_velocity.length() > 0:
+		reflected_velocity = reflected_velocity.linear_interpolate(Vector2.ZERO, 0.12)
+	
+	# Dash effect logic
+	if velocity.length() >= DASH_MIN_SPEED:
+		trail_particles.emitting = false
+		dash_particles.emitting = true
+		if dash_animation_player.current_animation != "flash_white":
+			dash_animation_player.play("flash_white", -1, 1.5)
+	elif velocity.length() >= DASH_MIN_SPEED / 2:
+		trail_particles.emitting = true
+		dash_particles.emitting = false
+		if dash_animation_player.current_animation == "flash_white":
+			dash_animation_player.play("rest")
+	else:
+		trail_particles.emitting = false
+		dash_particles.emitting = false
+		if dash_animation_player.current_animation == "flash_white":
+			dash_animation_player.play("rest")
+
+func falling_state_logic():
+	trail_particles.emitting = false
+	dash_particles.emitting = false
+	if dash_animation_player.current_animation == "flash_white":
+		dash_animation_player.play("rest")
+
+func enter_state(new_state):
+	match new_state:
+		States.NORMAL:
+			pass
+		States.FALLING:
+			set_velocity(0, 0)
+			body.show()
+			damage_animation_player.play("falling")
+			dash_animation_player.play("rest")
+
+func exit_state(previous_state):
+	pass
+
+func set_state(new_state):
+	var previous_state = state
+	exit_state(previous_state)
+	state = new_state
+	enter_state(new_state)
 
 # Shoot the player away from the mouse
 func launch() -> void:
@@ -204,3 +240,18 @@ func reset_camera():
 	camera.drag_margin_right = 0.2
 	camera.drag_margin_top = 0.2
 	camera.drag_margin_bottom = 0.2
+
+func fall_in_hole():
+	if can_fall_in_hole():
+		velocity_before_falling = Vector2(velocity.x, velocity.y)
+		set_state(States.FALLING)
+
+func can_fall_in_hole():
+	return damage_animation_player.current_animation != "falling"
+
+func _on_DamageAnimationPlayer_animation_finished(anim):
+	if anim == "falling":
+		global_position += velocity_before_falling.normalized() * -4
+		set_state(States.NORMAL)
+		damage(1)
+		damage_animation_player.play("respawn")
