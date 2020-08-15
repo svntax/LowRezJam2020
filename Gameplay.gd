@@ -18,6 +18,7 @@ onready var exit_cell = null
 onready var dungeon = null
 onready var minimap = $UILayer/Minimap
 onready var pause_menu = $UILayer/PauseMenu
+onready var game_over_menu = $UILayer/GameOverMenu
 onready var player = $Player
 onready var rooms = $Rooms
 onready var rooms_grid = [] # Grid of room instances
@@ -32,6 +33,8 @@ func start_level():
 	dungeon = null
 	rooms_grid.clear()
 	for each in rooms.get_children():
+		each.queue_free()
+	for each in enemies_root.get_children():
 		each.queue_free()
 	for x in range(dungeon_width):
 		rooms_grid.append([])
@@ -120,3 +123,8 @@ func get_dungeon():
 
 func add_enemy(enemy_instance):
 	enemies_root.add_child(enemy_instance)
+
+func game_over():
+	get_tree().paused = true
+	game_over_menu.update_stats()
+	game_over_menu.show()

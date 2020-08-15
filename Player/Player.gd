@@ -46,9 +46,9 @@ func damage(amount : int) -> void:
 		return
 	
 	hp -= amount
-	if hp < 0:
+	if hp <= 0:
 		hp = 0
-		# TODO: dead
+		game_root.game_over()
 	else:
 		damage_animation_player.play("damage")
 	emit_signal("hp_changed", hp)
