@@ -9,6 +9,9 @@ var width
 var height
 var room_count = 0
 var room_limit = 10 # Default
+var deepest_rooms = []
+var farthest_depth_level = 0
+var dead_end_rooms = []
 
 func _init(w: int, h: int):
 	width = w
@@ -26,9 +29,34 @@ func add_starting_room(x: int, y: int):
 
 func generate_rooms(num_rooms: int):
 	room_limit = num_rooms
-	generate_neighbors(root)
+	generate_neighbors(root, 0)
 
-func generate_neighbors(current_room):
+# Finds the deepest rooms in the grid and stores them in an array
+# Assumes that generate_rooms() has already been called
+func detect_deepest_rooms():
+	_find_deepest_rooms(root, 0)
+
+func _find_deepest_rooms(cell, depth):
+	if cell == null:
+		return
+	if depth == farthest_depth_level:
+		deepest_rooms.append(cell)
+	else:
+		for i in range(4):
+			var neighbor = cell.get_child_towards(Globals.DIRECTIONS[i])
+			_find_deepest_rooms(neighbor, depth + 1)
+
+func get_deepest_rooms() -> Array:
+	return deepest_rooms
+
+func get_farthest_depth_level():
+	return farthest_depth_level
+
+func generate_neighbors(current_room, depth_level: int):
+	# Keep track of the depth level of the deepest cells
+	if farthest_depth_level < depth_level:
+		farthest_depth_level = depth_level
+	
 	if room_count >= room_limit:
 		return
 	if current_room == null:
@@ -36,8 +64,8 @@ func generate_neighbors(current_room):
 	
 	var neighbor1 = add_random_neighbor(current_room)
 	var neighbor2 = add_random_neighbor(current_room)
-	generate_neighbors(neighbor1)
-	generate_neighbors(neighbor2)
+	generate_neighbors(neighbor1, depth_level + 1)
+	generate_neighbors(neighbor2, depth_level + 1)
 
 # Adds a new cell at a random direction if possible.
 # Returns the newly created cell or null if failed.

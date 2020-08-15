@@ -4,6 +4,7 @@ extends Node2D
 const DOOR_COLOR = Color("8b97b6")
 const ROOM_COLOR = Color("ffffff")
 const BLINK_COLOR = Color("ecab11")
+const EXIT_COLOR = Color("08b23b")
 onready var player_color = ROOM_COLOR
 
 export (NodePath) var player_path = ""
@@ -12,6 +13,7 @@ onready var player = null
 onready var dungeon
 onready var map_offset = Vector2(42, 4)
 onready var cell_size = Vector2(1, 1)
+onready var exit_cell = null
 
 func _ready():
 	player = get_node_or_null(player_path)
@@ -19,8 +21,11 @@ func _ready():
 func set_dungeon_reference(ref):
 	dungeon = ref
 
+func set_exit_cell(cell):
+	exit_cell = cell
+
 func _draw():
-	if dungeon == null:
+	if dungeon == null or !is_instance_valid(dungeon):
 		return
 	
 	#draw_rect(Rect2(map_offset.x - 1, map_offset.y - 1, 21, 21), BG_COLOR)
@@ -31,7 +36,10 @@ func _draw():
 			if cell != null:
 #				if cell == dungeon.root:
 #					draw_rect(Rect2(pos, cell_size), Color.yellow)
-				draw_rect(Rect2(pos, cell_size), ROOM_COLOR)
+				if cell == exit_cell:
+					draw_rect(Rect2(pos, cell_size), EXIT_COLOR)
+				else:
+					draw_rect(Rect2(pos, cell_size), ROOM_COLOR)
 				var cell_parent = cell.get_parent_cell()
 				if cell_parent != null:
 					var dir = cell.get_parent_cell().get_cell_position() - cell.get_cell_position()

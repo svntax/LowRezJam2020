@@ -10,12 +10,21 @@ onready var south_door = $SouthDoor
 onready var west_door = $WestDoor
 onready var east_door = $EastDoor
 onready var base_tiles = $BaseTiles
+onready var layout_root = $LayoutRoot
 
 func _ready():
 	north_door.hide()
 	south_door.hide()
 	west_door.hide()
 	east_door.hide()
+
+# Adds a created layout instance to this room and deletes the current layout if it exists.
+func add_layout(layout_instance):
+	if layout_root.get_child_count() > 0:
+		# Delete existing layout
+		for layout in layout_root.get_children():
+			layout.queue_free()
+	layout_root.add_child(layout_instance)
 
 func open_passage(dir: Vector2):
 	if dir == Vector2.UP:

@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://LevelGeneration/RoomBase.gd" type="Script" id=2]
-[ext_resource path="res://LevelGeneration/Door.gd" type="Script" id=3]
 [ext_resource path="res://LevelGeneration/Door.tscn" type="PackedScene" id=4]
 
 [node name="RoomBase" type="Node2D"]
@@ -19,23 +18,24 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="NorthDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+[node name="NorthDoor" parent="." instance=ExtResource( 4 )]
 position = Vector2( 64, 12 )
-script = ExtResource( 3 )
 draw_bottom_line = true
 
-[node name="WestDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+[node name="WestDoor" parent="." instance=ExtResource( 4 )]
 position = Vector2( 12, 64 )
 rotation = -1.57079
-script = ExtResource( 3 )
 draw_bottom_line = true
 
-[node name="EastDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+[node name="EastDoor" parent="." instance=ExtResource( 4 )]
 position = Vector2( 116, 64 )
 rotation = -4.71238
-script = ExtResource( 3 )
 
-[node name="SouthDoor" type="Node2D" parent="." instance=ExtResource( 4 )]
+[node name="SouthDoor" parent="." instance=ExtResource( 4 )]
 position = Vector2( 64, 116 )
 rotation = -3.14159
-script = ExtResource( 3 )
+
+[node name="LayoutRoot" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}

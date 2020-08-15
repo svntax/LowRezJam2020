@@ -5,6 +5,7 @@ const ROOM_SIZE = ROOM_TILES_SIZE * 8
 
 const RoomBase = preload("res://LevelGeneration/RoomBase.tscn")
 const StartingRoom = preload("res://LevelGeneration/Rooms/StartingRoom.tscn")
+const ExitRoom = preload("res://LevelGeneration/Rooms/ExitRoom.tscn")
 const EnemyRooms = [
 	preload("res://LevelGeneration/Rooms/EnemiesRoom01.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom02.tscn"),
@@ -18,10 +19,17 @@ onready var minimap = $UILayer/Minimap
 onready var pause_menu = $UILayer/PauseMenu
 onready var player = $Player
 onready var rooms = $Rooms
-onready var rooms_grid # Grid of room instances
+onready var rooms_grid = [] # Grid of room instances
 
 func _ready():
-	rooms_grid = []
+	start_level()
+
+func start_level():
+	player.set_velocity(0, 0)
+	dungeon = null
+	rooms_grid.clear()
+	for each in rooms.get_children():
+		each.queue_free()
 	for x in range(dungeon_width):
 		rooms_grid.append([])
 		for _y in range(dungeon_height):
@@ -48,13 +56,24 @@ func generate_dungeon():
 	# Recursively generate adjacent rooms starting at the root
 	var num_rooms = int(rand_range(7, 12))
 	dungeon.generate_rooms(num_rooms)
+	dungeon.detect_deepest_rooms()
+	yield(get_tree(), "physics_frame")
 	# Actually place the room instances
 	place_room_instances()
 
 # Recursively go through the dungeon, starting from the root, and link
 # connected rooms together.
 func place_room_instances():
+	# Place the starting room and enemy rooms
 	place_room(dungeon.root)
+	# Place the exit room randomly at one of the deepest rooms
+	var deepest_rooms = dungeon.get_deepest_rooms()
+	var choice = randi() % deepest_rooms.size()
+	var exit_cell = deepest_rooms[choice]
+	var cell_pos = exit_cell.get_cell_position()
+	var layout = ExitRoom.instance()
+	rooms_grid[cell_pos.x][cell_pos.y].add_layout(layout)
+	minimap.set_exit_cell(exit_cell)
 
 func place_room(current_cell):
 	# Instance a room for the current cell
@@ -78,12 +97,17 @@ func place_room(current_cell):
 	# Generate the room's layout
 	if current_cell == dungeon.root:
 		var layout = StartingRoom.instance()
-		base.add_child(layout)
+		base.add_layout(layout)
 	else:
 		# Basic enemy room
 		var choice = randi() % EnemyRooms.size()
 		var layout = EnemyRooms[choice].instance()
-		base.add_child(layout)
+		base.add_layout(layout)
+
+func exit_reached():
+	# TODO: show some menu/animation first before moving to next level
+	Globals.current_level += 1
+	start_level()
 
 func get_dungeon():
 	return dungeon
