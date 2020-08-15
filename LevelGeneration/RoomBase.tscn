@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://LevelGeneration/RoomBase.gd" type="Script" id=2]
 [ext_resource path="res://LevelGeneration/Door.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40, 40 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 56, 56 )
 
 [node name="RoomBase" type="Node2D"]
 script = ExtResource( 2 )
@@ -39,3 +45,22 @@ rotation = -3.14159
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="PlayerDetect" type="Area2D" parent="."]
+position = Vector2( 64, 64 )
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetect"]
+shape = SubResource( 1 )
+
+[node name="EnemyDetect" type="Area2D" parent="."]
+visible = false
+position = Vector2( 64, 64 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetect"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="PlayerDetect" to="." method="_on_PlayerDetect_body_entered"]

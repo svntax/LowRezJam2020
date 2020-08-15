@@ -246,7 +246,11 @@ tracks/3/keys = {
 "values": [ Vector2( 0, -2 ), Vector2( 0, -2 ), Vector2( 0, -1 ), Vector2( 0, -1 ) ]
 }
 
-[node name="PoolBallEnemy" type="KinematicBody2D"]
+[node name="PoolBallEnemy" type="KinematicBody2D" groups=[
+"Enemies",
+]]
+collision_layer = 5
+collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]

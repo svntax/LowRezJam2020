@@ -11,6 +11,7 @@ onready var reflected_velocity : Vector2 = Vector2()
 enum States {IDLE, WALK, CHARGE, ROLL, POP, FALLING}
 onready var state = States.IDLE
 
+onready var game_root = get_tree().get_root().get_node("Gameplay")
 onready var roll_sprite = $Body/Roll
 onready var idle_sprite = $Body/Idle
 onready var walk_sprite = $Body/Walk
@@ -29,6 +30,10 @@ func _ready():
 	set_state(States.IDLE)
 
 func _physics_process(_delta):
+	# Don't move if not in the same room as the player
+	if Globals.get_cell_position(game_root.player) != Globals.get_cell_position(self):
+		velocity = Vector2.ZERO
+	
 	var collision = move_and_collide(velocity + reflected_velocity)
 	if collision:
 		velocity = velocity.bounce(collision.normal)
@@ -183,4 +188,6 @@ func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
 		set_state(States.IDLE)
 	elif anim == "falling":
+		var cell_pos = Globals.get_cell_position(self)
+		game_root.check_enemy_room_complete(cell_pos.x, cell_pos.y)
 		queue_free()

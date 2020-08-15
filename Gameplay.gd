@@ -117,6 +117,7 @@ func place_room(current_cell):
 		var choice = randi() % EnemyRooms.size()
 		var layout = EnemyRooms[choice].instance()
 		base.add_layout(layout)
+		base.set_lock_on_enter(true)
 
 func exit_reached():
 	# TODO: show some menu/animation first before moving to next level
@@ -128,6 +129,14 @@ func get_dungeon():
 
 func add_enemy(enemy_instance):
 	enemies_root.add_child(enemy_instance)
+
+func check_enemy_room_complete(cell_x, cell_y):
+	var room = rooms_grid[cell_x][cell_y]
+	for i in range(3):
+		yield(get_tree().create_timer(0.5), "timeout")
+		if room.get_enemy_count() <= 0:
+			room.unlock_doors()
+			return
 
 func game_over():
 	get_tree().paused = true
