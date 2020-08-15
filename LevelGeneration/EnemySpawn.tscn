@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://LevelGeneration/Rooms/EnemySpawnPoint.gd" type="Script" id=1]
+
+[node name="EnemySpawn" type="Position2D"]
+position = Vector2( 39, 96 )
+script = ExtResource( 1 )

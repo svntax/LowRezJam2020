@@ -28,6 +28,7 @@ onready var dash_animation_player = $DashAnimationPlayer
 onready var dash_top_sprite = $Body/DashTop
 onready var arrows = $Arrows
 onready var damage_animation_player = $DamageAnimationPlayer
+onready var camera = $Camera2D
 
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
@@ -192,3 +193,14 @@ func knockback(impulse : Vector2) -> void:
 func set_velocity(x : float, y : float) -> void:
 	velocity.x = x
 	velocity.y = y
+
+func reset_camera():
+	camera.drag_margin_left = 0
+	camera.drag_margin_right = 0
+	camera.drag_margin_top = 0
+	camera.drag_margin_bottom = 0
+	yield(get_tree().create_timer(0.1), "timeout")
+	camera.drag_margin_left = 0.2
+	camera.drag_margin_right = 0.2
+	camera.drag_margin_top = 0.2
+	camera.drag_margin_bottom = 0.2

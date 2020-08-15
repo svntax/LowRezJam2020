@@ -14,7 +14,24 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Bg" type="ColorRect" parent="."]
+margin_left = -128.0
+margin_top = -128.0
+margin_right = 1408.0
+margin_bottom = 1408.0
+rect_min_size = Vector2( 1536, 1536 )
+color = Color( 0.0941176, 0.0509804, 0.184314, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
 [node name="Rooms" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Enemies" type="Node2D" parent="."]
 __meta__ = {
 "_edit_lock_": true
 }

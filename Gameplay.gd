@@ -13,6 +13,7 @@ const EnemyRooms = [
 
 onready var dungeon_width = 10
 onready var dungeon_height = 10
+onready var exit_cell = null
 
 onready var dungeon = null
 onready var minimap = $UILayer/Minimap
@@ -20,12 +21,14 @@ onready var pause_menu = $UILayer/PauseMenu
 onready var player = $Player
 onready var rooms = $Rooms
 onready var rooms_grid = [] # Grid of room instances
+onready var enemies_root = $Enemies
 
 func _ready():
 	start_level()
 
 func start_level():
 	player.set_velocity(0, 0)
+	player.reset_camera()
 	dungeon = null
 	rooms_grid.clear()
 	for each in rooms.get_children():
@@ -64,12 +67,12 @@ func generate_dungeon():
 # Recursively go through the dungeon, starting from the root, and link
 # connected rooms together.
 func place_room_instances():
+	var deepest_rooms = dungeon.get_deepest_rooms()
+	var choice = randi() % deepest_rooms.size()
+	exit_cell = deepest_rooms[choice]
 	# Place the starting room and enemy rooms
 	place_room(dungeon.root)
 	# Place the exit room randomly at one of the deepest rooms
-	var deepest_rooms = dungeon.get_deepest_rooms()
-	var choice = randi() % deepest_rooms.size()
-	var exit_cell = deepest_rooms[choice]
 	var cell_pos = exit_cell.get_cell_position()
 	var layout = ExitRoom.instance()
 	rooms_grid[cell_pos.x][cell_pos.y].add_layout(layout)
@@ -98,6 +101,9 @@ func place_room(current_cell):
 	if current_cell == dungeon.root:
 		var layout = StartingRoom.instance()
 		base.add_layout(layout)
+	elif current_cell == exit_cell:
+		# Don't generate the layout for the exit room, it will be done separately
+		pass
 	else:
 		# Basic enemy room
 		var choice = randi() % EnemyRooms.size()
@@ -111,3 +117,6 @@ func exit_reached():
 
 func get_dungeon():
 	return dungeon
+
+func add_enemy(enemy_instance):
+	enemies_root.add_child(enemy_instance)
