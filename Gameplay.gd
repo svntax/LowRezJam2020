@@ -49,6 +49,11 @@ func _process(_delta):
 		get_tree().paused = true
 	if Input.is_action_just_pressed("map_toggle"):
 		minimap.visible = !minimap.visible
+	
+	# Room visit checking
+	if dungeon != null and is_instance_valid(dungeon):
+		var cell_pos = Globals.get_cell_position(player)
+		dungeon.grid[cell_pos.x][cell_pos.y].visited = true
 
 # Dungeons are limited to a 10x10 cell size
 func generate_dungeon():

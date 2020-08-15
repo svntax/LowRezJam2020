@@ -12,6 +12,7 @@ var parent = null
 # Cell position in the dungeon
 var x: int
 var y: int
+var visited = false
 
 func _init(cell_x: int, cell_y: int):
 	x = cell_x
@@ -45,6 +46,9 @@ func get_child_towards(dir: Vector2):
 		return child_left
 	elif dir == Vector2.RIGHT:
 		return child_right
+
+func was_visited() -> bool:
+	return visited
 
 func set_parent_cell(other):
 	parent = other

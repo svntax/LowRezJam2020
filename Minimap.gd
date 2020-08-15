@@ -38,12 +38,12 @@ func _draw():
 #					draw_rect(Rect2(pos, cell_size), Color.yellow)
 				if cell == exit_cell:
 					draw_rect(Rect2(pos, cell_size), EXIT_COLOR)
-				else:
+				elif cell.was_visited():
 					draw_rect(Rect2(pos, cell_size), ROOM_COLOR)
-				var cell_parent = cell.get_parent_cell()
-				if cell_parent != null:
-					var dir = cell.get_parent_cell().get_cell_position() - cell.get_cell_position()
-					draw_rect(Rect2(pos + dir, cell_size), DOOR_COLOR)
+					var cell_parent = cell.get_parent_cell()
+					if cell_parent != null:
+						var dir = cell.get_parent_cell().get_cell_position() - cell.get_cell_position()
+						draw_rect(Rect2(pos + dir, cell_size), DOOR_COLOR)
 			else:
 				pass#draw_rect(Rect2(pos, cell_size), Color.gray)
 	

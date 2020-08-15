@@ -66,6 +66,8 @@ func generate_neighbors(current_room, depth_level: int):
 	var neighbor2 = add_random_neighbor(current_room)
 	generate_neighbors(neighbor1, depth_level + 1)
 	generate_neighbors(neighbor2, depth_level + 1)
+	if neighbor1 == null and neighbor2 == null:
+		dead_end_rooms.append(current_room)
 
 # Adds a new cell at a random direction if possible.
 # Returns the newly created cell or null if failed.
@@ -97,6 +99,9 @@ func add_random_neighbor(current_cell):
 
 func get_room(x: int, y: int):
 	return grid[x][y]
+
+func get_dead_end_rooms():
+	return dead_end_rooms
 
 func valid_cell_pos(pos: Vector2) -> bool:
 	return pos.x >= 0 and pos.x < width and pos.y >= 0 and pos.y < height
