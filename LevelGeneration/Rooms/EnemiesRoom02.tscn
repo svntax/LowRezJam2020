@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://LevelGeneration/EnemySpawn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Environment/Pots/PotNormal.tscn" type="PackedScene" id=3]
+[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.tscn" type="PackedScene" id=4]
 
 [node name="EnemiesRoom02" type="Node2D"]
 
@@ -24,9 +25,15 @@ position = Vector2( 56, 63 )
 position = Vector2( 72, 63 )
 
 [node name="EnemySpawn" parent="." instance=ExtResource( 2 )]
-position = Vector2( 64, 92 )
+position = Vector2( 96, 96 )
 spawn_pool = [ 0, 1, 1, 2 ]
 
 [node name="EnemySpawn2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 64, 36 )
+position = Vector2( 32, 32 )
 spawn_pool = [ 0, 1, 1, 2 ]
+
+[node name="FloorHole" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 42 )
+
+[node name="FloorHole2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 84 )

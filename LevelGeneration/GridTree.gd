@@ -41,10 +41,16 @@ func _find_deepest_rooms(cell, depth):
 		return
 	if depth == farthest_depth_level:
 		deepest_rooms.append(cell)
+		dead_end_rooms.append(cell)
 	else:
+		var no_neighbors = true
 		for i in range(4):
 			var neighbor = cell.get_child_towards(Globals.DIRECTIONS[i])
+			if neighbor != null:
+				no_neighbors = false
 			_find_deepest_rooms(neighbor, depth + 1)
+		if no_neighbors:
+			dead_end_rooms.append(cell)
 
 func get_deepest_rooms() -> Array:
 	return deepest_rooms
@@ -66,8 +72,6 @@ func generate_neighbors(current_room, depth_level: int):
 	var neighbor2 = add_random_neighbor(current_room)
 	generate_neighbors(neighbor1, depth_level + 1)
 	generate_neighbors(neighbor2, depth_level + 1)
-	if neighbor1 == null and neighbor2 == null:
-		dead_end_rooms.append(current_room)
 
 # Adds a new cell at a random direction if possible.
 # Returns the newly created cell or null if failed.

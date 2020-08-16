@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 const PotNormalShard = preload("res://Environment/Pots/PotNormalShard.tscn")
+const HeartPickup = preload("res://LevelGeneration/Items/HeartPickup.tscn")
 
 const STOP_THRESHOLD = 0.0015
 onready var damping = 0.95
@@ -28,8 +29,15 @@ func _physics_process(_delta):
 func set_velocity(vel : Vector2) -> void:
 	velocity = vel
 
+func drop_heart():
+	var heart = HeartPickup.instance()
+	get_parent().add_child(heart)
+	heart.global_position = global_position
+
 func shatter() -> void:
-	# TODO: loot drop
+	var roll = randf()
+	if roll < 0.2:
+		drop_heart()
 	sprite_normal.hide()
 	collision_shape.disabled = true
 	for _i in range(2):

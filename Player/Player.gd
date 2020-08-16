@@ -252,6 +252,7 @@ func can_fall_in_hole():
 func _on_DamageAnimationPlayer_animation_finished(anim):
 	if anim == "falling":
 		global_position += velocity_before_falling.normalized() * -4
+		set_velocity(0, 0)
 		set_state(States.NORMAL)
 		damage(1)
 		damage_animation_player.play("respawn")

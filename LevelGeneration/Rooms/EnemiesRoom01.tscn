@@ -30,4 +30,7 @@ position = Vector2( 96, 32 )
 spawn_pool = [ 1 ]
 
 [node name="FloorHole" parent="." instance=ExtResource( 3 )]
-position = Vector2( 44, 36 )
+position = Vector2( 43, 36 )
+
+[node name="FloorHole2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 85, 92 )

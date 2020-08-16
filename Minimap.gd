@@ -44,8 +44,6 @@ func _draw():
 					if cell_parent != null:
 						var dir = cell.get_parent_cell().get_cell_position() - cell.get_cell_position()
 						draw_rect(Rect2(pos + dir, cell_size), DOOR_COLOR)
-			else:
-				pass#draw_rect(Rect2(pos, cell_size), Color.gray)
 	
 	if player != null:
 		draw_object_in_minimap(player)

@@ -9,6 +9,13 @@ const ExitRoom = preload("res://LevelGeneration/Rooms/ExitRoom.tscn")
 const EnemyRooms = [
 	preload("res://LevelGeneration/Rooms/EnemiesRoom01.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom02.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom03.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom04.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom05.tscn"),
+]
+const ItemRooms = [
+	preload("res://LevelGeneration/Rooms/ItemsRoom01.tscn"),
+	preload("res://LevelGeneration/Rooms/ItemsRoom02.tscn"),
 ]
 
 onready var dungeon_width = 10
@@ -113,9 +120,30 @@ func place_room(current_cell):
 		# Don't generate the layout for the exit room, it will be done separately
 		pass
 	else:
-		# Basic enemy room
-		var choice = randi() % EnemyRooms.size()
-		var layout = EnemyRooms[choice].instance()
+		var layout = null
+		var roll = randf()
+		if current_cell in dungeon.get_dead_end_rooms():
+			# Dead-end rooms have a higher chance of being item rooms
+			var item_room_chance = 0.4
+			if player.hp < 3:
+				item_room_chance = 0.8
+			if roll < item_room_chance:
+				# Item room
+				var i = randi() % ItemRooms.size()
+				layout = ItemRooms[i].instance()
+			else:
+				# Enemy room
+				var i = randi() % EnemyRooms.size()
+				layout = EnemyRooms[i].instance()
+		else:
+			if roll < 0.08:
+				# Item room
+				var i = randi() % ItemRooms.size()
+				layout = ItemRooms[i].instance()
+			else:
+				# Enemy room
+				var i = randi() % EnemyRooms.size()
+				layout = EnemyRooms[i].instance()
 		base.add_layout(layout)
 		base.set_lock_on_enter(true)
 
