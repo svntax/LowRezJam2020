@@ -77,7 +77,6 @@ __meta__ = {
 
 [node name="DoorsLockedSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = -4.0
 
 [node name="DoorsOpenedSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
