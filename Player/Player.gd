@@ -133,17 +133,17 @@ func _physics_process(delta):
 	else:
 		arrows.visible = false
 	
-	# TODO: debug healing, remove later
-	if Input.is_action_just_pressed("ui_page_down"):
-		damage(1)
-	if Input.is_action_just_pressed("ui_page_up"):
-		heal(1)
-	# TODO: debug zoom out, remove later
-	if Input.is_action_just_pressed("ui_focus_next"):
-		if $Camera2D.zoom.x == 1:
-			$Camera2D.zoom = Vector2(12, 12)
-		else:
-			$Camera2D.zoom = Vector2(1, 1)
+#	# TODO: debug healing, remove later
+#	if Input.is_action_just_pressed("ui_page_down"):
+#		damage(1)
+#	if Input.is_action_just_pressed("ui_page_up"):
+#		heal(1)
+#	# TODO: debug zoom out, remove later
+#	if Input.is_action_just_pressed("ui_focus_next"):
+#		if $Camera2D.zoom.x == 1:
+#			$Camera2D.zoom = Vector2(12, 12)
+#		else:
+#			$Camera2D.zoom = Vector2(1, 1)
 
 func normal_state_logic():
 	var collision = move_and_collide(velocity + reflected_velocity)

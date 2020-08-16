@@ -33,6 +33,9 @@ func enter_state(new_state):
 			trail_particles.emitting = false
 			dash_particles.emitting = false
 		States.JUMP:
+			# Bug: if a room checks if all enemies have been defeated, and
+			# this jumper enemy's collision is disabled, the room will think that
+			# all enemies in it are dead and open up
 			collision_layer = 0
 			collision_mask = 0
 			trail_particles.emitting = false
