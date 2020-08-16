@@ -22,21 +22,22 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 22.0
-margin_top = 10.0
-margin_right = 42.0
-margin_bottom = 15.0
+margin_top = 8.0
+margin_right = 64.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 2 )
-text = "TITLE"
+text = "RECOIL
+DUNGEON"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Start" type="Button" parent="."]
 margin_left = 16.0
-margin_top = 32.0
+margin_top = 34.0
 margin_right = 48.0
-margin_bottom = 41.0
+margin_bottom = 43.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
@@ -44,15 +45,14 @@ custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 2 )
 text = "START"
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="Exit" type="Button" parent="."]
 margin_left = 16.0
-margin_top = 45.0
+margin_top = 47.0
 margin_right = 48.0
-margin_bottom = 54.0
+margin_bottom = 56.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
@@ -60,7 +60,6 @@ custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 2 )
 text = "EXIT"
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
