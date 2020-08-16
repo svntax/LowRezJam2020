@@ -1,7 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://PICO-8_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=3]
+[ext_resource path="res://Menus/EnemyDecoration.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemies/enemy_basic.png" type="Texture" id=5]
+[ext_resource path="res://Enemies/Sprites/enemy_basic_blue.png" type="Texture" id=6]
+[ext_resource path="res://Enemies/Sprites/enemy_basic_green.png" type="Texture" id=7]
+[ext_resource path="res://Enemies/Sprites/enemy_basic_walk_blue.png" type="Texture" id=8]
+[ext_resource path="res://Enemies/enemy_basic_walk.png" type="Texture" id=9]
+[ext_resource path="res://Enemies/Sprites/enemy_basic_walk_green.png" type="Texture" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -21,6 +29,13 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 8, 8 )
+cell_quadrant_size = 4
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 262144, 4, 0, 262145, 4, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 4, 0, 262151, 4, 0, 393215, 0, 0, 327680, 1, 0, 327681, 1, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 1, 0, 327687, 1, 0, 327688, 0, 0, 458751, 0, 0, 393216, 1, 0, 393217, 1, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 1, 0, 393223, 1, 0, 393224, 0, 0, 524287, 0, 0, 458752, 1, 0, 458753, 1, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 1, 0, 458759, 1, 0, 458760, 0, 0, 524288, 0, 0, 524289, 0, 0, 524294, 0, 0, 524295, 0, 0 )
+
 [node name="Label" type="Label" parent="."]
 margin_top = 8.0
 margin_right = 64.0
@@ -34,10 +49,10 @@ __meta__ = {
 }
 
 [node name="Start" type="Button" parent="."]
-margin_left = 16.0
-margin_top = 34.0
-margin_right = 48.0
-margin_bottom = 43.0
+margin_left = 18.0
+margin_top = 36.0
+margin_right = 46.0
+margin_bottom = 45.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
@@ -49,10 +64,10 @@ __meta__ = {
 }
 
 [node name="Exit" type="Button" parent="."]
-margin_left = 16.0
-margin_top = 47.0
-margin_right = 48.0
-margin_bottom = 56.0
+margin_left = 18.0
+margin_top = 49.0
+margin_right = 46.0
+margin_bottom = 58.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
@@ -62,5 +77,15 @@ text = "EXIT"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="EnemyDecoration" parent="." instance=ExtResource( 4 )]
+position = Vector2( 8, 52 )
+idle_frames = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
+walk_frames = [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ]
+
+[node name="EnemyDecoration2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 56, 52 )
+idle_frames = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
+walk_frames = [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ]
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]

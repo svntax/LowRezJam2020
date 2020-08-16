@@ -338,6 +338,7 @@ texture = ExtResource( 7 )
 [node name="Body" type="Node2D" parent="."]
 
 [node name="Idle" type="Sprite" parent="Body"]
+visible = false
 light_mask = 3
 use_parent_material = true
 position = Vector2( 0, -1 )
@@ -345,12 +346,10 @@ texture = ExtResource( 2 )
 hframes = 4
 
 [node name="Walk" type="Sprite" parent="Body"]
-visible = false
 light_mask = 3
-position = Vector2( 0, -1 )
+position = Vector2( 0, -2 )
 texture = ExtResource( 4 )
 hframes = 4
-frame = 3
 
 [node name="Roll" type="Sprite" parent="Body"]
 visible = false
