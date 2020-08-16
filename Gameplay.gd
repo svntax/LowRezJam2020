@@ -34,8 +34,11 @@ onready var player = $Player
 onready var rooms = $Rooms
 onready var rooms_grid = [] # Grid of room instances
 onready var enemies_root = $Enemies
+onready var theme_intro = $ThemeIntro
+onready var theme_loop = $ThemeLoop
 
 func _ready():
+	theme_intro.play()
 	start_level()
 
 func start_level():
@@ -193,3 +196,6 @@ func game_over():
 	get_tree().paused = true
 	game_over_menu.update_stats()
 	game_over_menu.show()
+
+func _on_ThemeIntro_finished():
+	theme_loop.play()

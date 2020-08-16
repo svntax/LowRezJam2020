@@ -25,6 +25,7 @@ onready var shadow_roll_sprite = $ShadowRoll
 onready var shadow_standing_sprite = $ShadowStanding
 onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
+onready var falling_timer = $FallingTimer
 
 func _ready():
 	walk_trigger_timer.wait_time = rand_range(1, 4)
@@ -59,6 +60,9 @@ func _physics_process(_delta):
 	if is_standing():
 		shadow_roll_sprite.hide()
 		shadow_standing_sprite.show()
+	elif state == States.FALLING:
+		shadow_roll_sprite.hide()
+		shadow_standing_sprite.hide()
 	else:
 		shadow_roll_sprite.show()
 		shadow_standing_sprite.hide()
@@ -128,6 +132,7 @@ func enter_state(new_state):
 		States.POP:
 			animation_player.play("pop_out")
 		States.FALLING:
+			falling_timer.start()
 			collision_layer = 0
 			collision_mask = 0
 			trail_particles.emitting = false
@@ -195,10 +200,34 @@ func fall_in_hole():
 func is_standing():
 	return state == States.IDLE or state == States.WALK 
 
+func die():
+	if !is_queued_for_deletion():
+		var cell_pos = Globals.get_cell_position(self)
+		game_root.check_enemy_room_complete(cell_pos.x, cell_pos.y)
+		queue_free()
+
 func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
 		set_state(States.IDLE)
 	elif anim == "falling":
-		var cell_pos = Globals.get_cell_position(self)
-		game_root.check_enemy_room_complete(cell_pos.x, cell_pos.y)
-		queue_free()
+		die()
+
+func _on_FallingTimer_timeout():
+	die()
+
+func state_as_string(s):
+	match s:
+		States.ROLL:
+			return "ROLL"
+		States.IDLE:
+			return "IDLE"
+		States.WALK:
+			return "WALK"
+		States.CHARGE:
+			return "CHARGE"
+		States.FALLING:
+			return "FALLING"
+		States.JUMP:
+			return "JUMP"
+		States.POP:
+			return "POP"

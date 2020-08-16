@@ -148,7 +148,9 @@ func normal_state_logic():
 				# No recoil
 				pass
 		elif collision.collider.has_method("knockback"):
-			collision.collider.knockback(velocity * 0.8)
+			var dir = collision.normal * -1
+			var knockback_speed = velocity.length() * 0.8
+			collision.collider.knockback(dir * knockback_speed)
 		# Dash-based damage dealing logic
 		if velocity.length() >= DASH_MIN_SPEED:
 			if collision.collider.has_method("dash_damage"):

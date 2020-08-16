@@ -5,6 +5,7 @@ onready var damage_cooldown_timer = $DamageCooldownTimer
 onready var shockwave_area = $ShockwaveArea
 onready var jump_tween = $JumpTween
 onready var collision_reset_timer = $CollisionResetTimer
+onready var fall_detect_area = $FallDetect
 
 onready var player_nearby = false
 onready var damage_ready = true
@@ -77,6 +78,11 @@ func jump_to_player():
 	jump_tween.start()
 
 func slam_ground():
+	for area in fall_detect_area.get_overlapping_areas():
+		if area.is_in_group("Holes"):
+			fall_in_hole()
+			return
+	
 	for body in shockwave_area.get_overlapping_bodies():
 		if body.has_method("knockback"):
 			var dir = global_position.direction_to(body.global_position)
@@ -97,9 +103,9 @@ func _on_PlayerDetect_body_exited(body):
 
 func _on_AnimationPlayer_animation_finished(anim):
 	._on_AnimationPlayer_animation_finished(anim)
-	if anim == "charge":
+	if anim == "charge" and state != States.FALLING:
 		set_state(States.JUMP)
-	elif anim == "jump":
+	elif anim == "jump" and state != States.FALLING:
 		set_state(States.ROLL)
 
 func _on_DamageCooldownTimer_timeout():

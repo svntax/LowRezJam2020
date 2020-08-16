@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/dim pool hall mix.ogg-5de61b8c386f60aed34a2ca9becac591.oggstr"
+
+[deps]
+
+source_file="res://Audio/dim pool hall mix.ogg"
+dest_files=[ "res://.import/dim pool hall mix.ogg-5de61b8c386f60aed34a2ca9becac591.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
