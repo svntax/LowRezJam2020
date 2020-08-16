@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/blue felt mix.ogg-b6dbf05ef8f75ca6e907bda279e8b15f.oggstr"
+
+[deps]
+
+source_file="res://Audio/blue felt mix.ogg"
+dest_files=[ "res://.import/blue felt mix.ogg-b6dbf05ef8f75ca6e907bda279e8b15f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

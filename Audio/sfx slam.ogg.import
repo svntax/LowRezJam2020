@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sfx slam.ogg-c2d2416d3b6bd54f8a8894a8623d9e75.oggstr"
+
+[deps]
+
+source_file="res://Audio/sfx slam.ogg"
+dest_files=[ "res://.import/sfx slam.ogg-c2d2416d3b6bd54f8a8894a8623d9e75.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

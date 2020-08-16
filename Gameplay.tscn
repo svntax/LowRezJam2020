@@ -147,9 +147,11 @@ visible = false
 
 [node name="ThemeIntro" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
+volume_db = -8.0
 
 [node name="ThemeLoop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
+volume_db = -8.0
 [connection signal="hp_changed" from="Player" to="UILayer/HpUI" method="_on_Player_hp_changed"]
 [connection signal="timeout" from="UILayer/Minimap/BlinkTimer" to="UILayer/Minimap" method="_on_BlinkTimer_timeout"]
 [connection signal="finished" from="ThemeIntro" to="." method="_on_ThemeIntro_finished"]

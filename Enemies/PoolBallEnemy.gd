@@ -4,7 +4,7 @@ const MAX_SPEED = 4
 const DASH_MIN_SPEED = 0.8
 const STOP_THRESHOLD = 0.0015
 export (float) var WALK_SPEED = 0.1
-export (float) var damping = 0.95
+export (float) var damping = 0.955
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
@@ -26,6 +26,7 @@ onready var shadow_standing_sprite = $ShadowStanding
 onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
 onready var falling_timer = $FallingTimer
+onready var falling_sfx = $FallingSound
 
 func _ready():
 	walk_trigger_timer.wait_time = rand_range(1, 4)
@@ -139,6 +140,7 @@ func enter_state(new_state):
 			dash_particles.emitting = false
 			flash_sprite.modulate.a = 0
 			set_velocity(Vector2.ZERO)
+			falling_sfx.play()
 			animation_player.play("falling")
 			idle_sprite.hide()
 			roll_sprite.show()
@@ -210,10 +212,12 @@ func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
 		set_state(States.IDLE)
 	elif anim == "falling":
-		die()
+		hide()
+		#die()
 
 func _on_FallingTimer_timeout():
-	die()
+	hide()
+	#die()
 
 func state_as_string(s):
 	match s:
@@ -231,3 +235,6 @@ func state_as_string(s):
 			return "JUMP"
 		States.POP:
 			return "POP"
+
+func _on_FallingSound_finished():
+	die()

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://LevelGeneration/RoomBase.gd" type="Script" id=2]
+[ext_resource path="res://Audio/sfx door close.ogg" type="AudioStream" id=3]
 [ext_resource path="res://LevelGeneration/Door.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Audio/sfx door open.ogg" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 40 )
@@ -72,4 +74,12 @@ shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="DoorsLockedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -4.0
+
+[node name="DoorsOpenedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -4.0
 [connection signal="body_entered" from="PlayerDetect" to="." method="_on_PlayerDetect_body_entered"]

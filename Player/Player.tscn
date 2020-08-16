@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/player_base.png" type="Texture" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://Player/player_top.png" type="Texture" id=4]
 [ext_resource path="res://Player/player_base_white.png" type="Texture" id=5]
 [ext_resource path="res://Player/arrow.png" type="Texture" id=6]
+[ext_resource path="res://Audio/sfx hit wall.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Audio/hit enemy.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Audio/sfx player hurt.ogg" type="AudioStream" id=9]
+[ext_resource path="res://Audio/sfx fall down hole.ogg" type="AudioStream" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
@@ -277,4 +281,19 @@ anims/rest = SubResource( 5 )
 anims/damage = SubResource( 6 )
 anims/falling = SubResource( 7 )
 anims/respawn = SubResource( 8 )
+
+[node name="HitWall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="HitEnemy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -14.0
+
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -6.0
+
+[node name="Falling" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -10.0
 [connection signal="animation_finished" from="DamageAnimationPlayer" to="." method="_on_DamageAnimationPlayer_animation_finished"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sfx player hurt.ogg-13e259bb71785ca170c02da645cff0d2.oggstr"
+
+[deps]
+
+source_file="res://Audio/sfx player hurt.ogg"
+dest_files=[ "res://.import/sfx player hurt.ogg-13e259bb71785ca170c02da645cff0d2.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

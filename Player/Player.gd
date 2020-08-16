@@ -10,7 +10,7 @@ onready var right_mouse_pressed = false
 const DASH_MIN_SPEED = 0.8
 
 const STOP_THRESHOLD = 0.0015
-onready var damping = 0.95
+onready var damping = 0.965
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 onready var velocity_before_falling = Vector2()
@@ -35,6 +35,11 @@ onready var damage_animation_player = $DamageAnimationPlayer
 onready var camera = $Camera2D
 onready var body = $Body
 
+onready var wall_hit_sfx = $HitWall
+onready var enemy_hit_sfx = $HitEnemy
+onready var hurt_sfx = $Hurt
+onready var falling_sfx = $Falling
+
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
 
@@ -57,6 +62,7 @@ func damage(amount : int) -> void:
 
 func force_damage(amount : int) -> void:
 	hp -= amount
+	hurt_sfx.play()
 	if hp <= 0:
 		hp = 0
 		game_root.game_over()
@@ -138,6 +144,13 @@ func normal_state_logic():
 	var collision = move_and_collide(velocity + reflected_velocity)
 	if collision:
 		velocity = velocity.bounce(collision.normal)
+		
+		if collision.collider != null:
+			if collision.collider is TileMap:
+				wall_hit_sfx.play()
+			elif collision.collider.is_in_group("Enemies"):
+				enemy_hit_sfx.play()
+		
 		if velocity.length() > MAX_SPEED:
 			velocity = velocity.clamped(MAX_SPEED)
 		# Speed scaling for pots
@@ -179,6 +192,10 @@ func normal_state_logic():
 	
 	if damage_animation_player.current_animation != "respawn":
 		body.show()
+	if damage_animation_player.current_animation != "falling":
+		# Make sure the body scale is normal
+		body.scale.x = 1
+		body.scale.y = 1
 
 func falling_state_logic():
 	trail_particles.emitting = false
@@ -195,6 +212,7 @@ func enter_state(new_state):
 			body.show()
 			damage_animation_player.play("falling")
 			dash_animation_player.play("rest")
+			falling_sfx.play()
 			play_randomized_rolling_animation()
 
 func exit_state(previous_state):

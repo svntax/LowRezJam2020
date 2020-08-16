@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sfx fall down hole.ogg-791253eef311c928e14bcb16e1f42bf3.oggstr"
+
+[deps]
+
+source_file="res://Audio/sfx fall down hole.ogg"
+dest_files=[ "res://.import/sfx fall down hole.ogg-791253eef311c928e14bcb16e1f42bf3.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

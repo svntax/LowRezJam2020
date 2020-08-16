@@ -6,6 +6,7 @@ onready var shockwave_area = $ShockwaveArea
 onready var jump_tween = $JumpTween
 onready var collision_reset_timer = $CollisionResetTimer
 onready var fall_detect_area = $FallDetect
+onready var slam_sfx = $SlamSound
 
 onready var player_nearby = false
 onready var damage_ready = true
@@ -78,6 +79,7 @@ func jump_to_player():
 	jump_tween.start()
 
 func slam_ground():
+	slam_sfx.play()
 	for area in fall_detect_area.get_overlapping_areas():
 		if area.is_in_group("Holes"):
 			fall_in_hole()

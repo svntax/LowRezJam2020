@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sfx hit wall.ogg-0636f9ab8bdf1bf792ad4460d901aad6.oggstr"
+
+[deps]
+
+source_file="res://Audio/sfx hit wall.ogg"
+dest_files=[ "res://.import/sfx hit wall.ogg-0636f9ab8bdf1bf792ad4460d901aad6.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

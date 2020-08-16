@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://PICO-8_Font.tres" type="DynamicFont" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Enemies/Sprites/enemy_basic_walk_blue.png" type="Texture" id=8]
 [ext_resource path="res://Enemies/enemy_basic_walk.png" type="Texture" id=9]
 [ext_resource path="res://Enemies/Sprites/enemy_basic_walk_green.png" type="Texture" id=10]
+[ext_resource path="res://Audio/blue felt mix.ogg" type="AudioStream" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -89,5 +90,8 @@ walk_frames = [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ]
 position = Vector2( 52, 52 )
 idle_frames = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
 walk_frames = [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ]
+
+[node name="BgTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]

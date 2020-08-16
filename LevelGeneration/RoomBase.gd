@@ -13,8 +13,13 @@ onready var base_tiles = $BaseTiles
 onready var layout_root = $LayoutRoot
 onready var enemy_detect = $EnemyDetect
 
+onready var doors_locked_sfx = $DoorsLockedSound
+onready var doors_unlocked_sfx = $DoorsOpenedSound
+
 onready var valid_doors = []
 onready var locked_until_enemies_defeated = false
+
+onready var doors_locked = false
 
 func _ready():
 	north_door.hide()
@@ -23,12 +28,18 @@ func _ready():
 	east_door.hide()
 
 func lock_doors():
-	for door in valid_doors:
-		door.lock_door()
+	if not doors_locked:
+		doors_locked = true
+		for door in valid_doors:
+			door.lock_door()
+		doors_locked_sfx.play()
 
 func unlock_doors():
-	for door in valid_doors:
-		door.unlock_door()
+	if doors_locked:
+		doors_locked = false
+		for door in valid_doors:
+			door.unlock_door()
+		doors_unlocked_sfx.play()
 
 # Adds a created layout instance to this room and deletes the current layout if it exists.
 func add_layout(layout_instance):
@@ -80,7 +91,7 @@ func _on_PlayerDetect_body_entered(body):
 func require_enemies_defeated():
 	return locked_until_enemies_defeated
 
-func set_lock_on_enter(flag: bool):
+func set_lock_on_enter(flag: bool): # Unused?
 	locked_until_enemies_defeated = flag
 
 func get_enemy_count():
