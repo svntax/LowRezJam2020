@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Environment/Pots/PotNormal.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Environment/Pots/Pot.gd" type="Script" id=4]
+[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.gd" type="Script" id=5]
+
+[node name="DesertItemRoom03" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 8, 8 )
+cell_quadrant_size = 4
+cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 131074, 1, 0, 131075, 1, 0, 131076, 1, 0, 131077, 1, 0, 131078, 1, 0, 131079, 1, 0, 131080, 1, 0, 131081, 1, 0, 131082, 1, 0, 131083, 1, 0, 131084, 1, 0, 131085, 1, 0, 196610, 1, 0, 196611, 11, 0, 196612, 15, 0, 196613, 15, 0, 196614, 15, 0, 196615, 15, 0, 196616, 15, 0, 196617, 15, 0, 196618, 15, 0, 196619, 15, 0, 196620, -1073741809, 0, 196621, 1, 0, 262146, 1, 0, 262147, -1073741809, 0, 262148, 10, 0, 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 262153, 1, 0, 262154, 1, 0, 262155, 10, 0, 262156, -1073741809, 0, 262157, 1, 0, 327682, 1, 0, 327683, -1073741809, 0, 327684, 1, 0, 327685, 11, 0, 327686, -1073741809, 0, 327687, 5, 0, 327688, 8, 0, 327689, 11, 0, 327690, -1073741809, 0, 327691, 1, 0, 327692, -1073741809, 0, 327693, 1, 0, 393218, 1, 0, 393219, -1073741809, 0, 393220, 1, 0, 393221, 15, 0, 393222, 16, 0, 393223, 5, 0, 393224, 8, 0, 393225, 15, 0, 393226, 16, 0, 393227, 1, 0, 393228, -1073741809, 0, 393229, 1, 0, 458754, 1, 0, 458755, -1073741809, 0, 458756, 1, 0, 458757, 5, 0, 458758, 5, 0, 458759, 5, 0, 458760, 5, 0, 458761, 5, 0, 458762, 8, 0, 458763, 1, 0, 458764, -1073741809, 0, 458765, 1, 0, 524290, 1, 0, 524291, -1073741809, 0, 524292, 1, 0, 524293, 5, 0, 524294, 5, 0, 524295, 5, 0, 524296, 5, 0, 524297, 5, 0, 524298, 8, 0, 524299, 1, 0, 524300, -1073741809, 0, 524301, 1, 0, 589826, 1, 0, 589827, -1073741809, 0, 589828, 1, 0, 589829, 5, 0, 589830, 8, 0, 589831, 11, 0, 589832, -1073741809, 0, 589833, 5, 0, 589834, 8, 0, 589835, 1, 0, 589836, -1073741809, 0, 589837, 1, 0, 655362, 1, 0, 655363, -1073741809, 0, 655364, 1, 0, 655365, 7, 0, 655366, 9, 0, 655367, 15, 0, 655368, 16, 0, 655369, 7, 0, 655370, 9, 0, 655371, 1, 0, 655372, -1073741809, 0, 655373, 1, 0, 720898, 1, 0, 720899, -1073741809, 0, 720900, 10, 0, 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720904, 1, 0, 720905, 1, 0, 720906, 1, 0, 720907, 10, 0, 720908, -1073741809, 0, 720909, 1, 0, 786434, 1, 0, 786435, 15, 0, 786436, 15, 0, 786437, 15, 0, 786438, 15, 0, 786439, 15, 0, 786440, 15, 0, 786441, 15, 0, 786442, 15, 0, 786443, 15, 0, 786444, 16, 0, 786445, 1, 0, 851970, 1, 0, 851971, 1, 0, 851972, 1, 0, 851973, 1, 0, 851974, 1, 0, 851975, 1, 0, 851976, 1, 0, 851977, 1, 0, 851978, 1, 0, 851979, 1, 0, 851980, 1, 0, 851981, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PotNormal" type="KinematicBody2D" parent="." groups=[
+"Pots",
+] instance=ExtResource( 2 )]
+position = Vector2( 48, 48 )
+script = ExtResource( 4 )
+
+[node name="PotNormal2" type="KinematicBody2D" parent="." groups=[
+"Pots",
+] instance=ExtResource( 2 )]
+position = Vector2( 64, 80 )
+script = ExtResource( 4 )
+
+[node name="PotNormal3" type="KinematicBody2D" parent="." groups=[
+"Pots",
+] instance=ExtResource( 2 )]
+position = Vector2( 80, 48 )
+script = ExtResource( 4 )
+
+[node name="FloorHole" type="Area2D" parent="." groups=[
+"Holes",
+] instance=ExtResource( 3 )]
+position = Vector2( 64, 64 )
+collision_layer = 8
+collision_mask = 3
+script = ExtResource( 5 )

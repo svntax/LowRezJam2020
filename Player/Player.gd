@@ -176,6 +176,9 @@ func normal_state_logic():
 		dash_particles.emitting = false
 		if dash_animation_player.current_animation == "flash_white":
 			dash_animation_player.play("rest")
+	
+	if damage_animation_player.current_animation != "respawn":
+		body.show()
 
 func falling_state_logic():
 	trail_particles.emitting = false

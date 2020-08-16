@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://LevelGeneration/Rooms/EnemySpawnPoint.gd" type="Script" id=1]
+[ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=2]
+[ext_resource path="res://LevelGeneration/EnemySpawn.tscn" type="PackedScene" id=3]
+[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.tscn" type="PackedScene" id=4]
+[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.gd" type="Script" id=5]
+
+[node name="DesertRoom01" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+cell_quadrant_size = 4
+cell_custom_transform = Transform2D( 8, 0, 0, 8, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 131074, 1, 0, 131075, 1, 0, 131076, 1, 0, 131077, 1, 0, 131078, 1, 0, 131079, 1, 0, 131080, 1, 0, 131081, 1, 0, 131082, 1, 0, 131083, 1, 0, 131084, 1, 0, 131085, 1, 0, 196610, 1, 0, 196611, 1, 0, 196612, 1, 0, 196613, 11, 0, 196614, 11, 0, 196615, 11, 0, 196616, 11, 0, 196617, 11, 0, 196618, -1073741809, 0, 196619, 1, 0, 196620, 1, 0, 196621, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 11, 0, 262149, 11, 0, 262150, 13, 0, 262151, 11, 0, 262152, 11, 0, 262153, 11, 0, 262154, 11, 0, 262155, -1073741809, 0, 262156, 1, 0, 262157, 1, 0, 327682, 1, 0, 327683, 11, 0, 327684, 11, 0, 327685, 11, 0, 327686, 11, 0, 327687, 15, 0, 327688, 15, 0, 327689, 11, 0, 327690, 11, 0, 327691, 11, 0, 327692, -1073741809, 0, 327693, 1, 0, 393218, 1, 0, 393219, 11, 0, 393220, 11, 0, 393221, 11, 0, 393222, 16, 0, 393223, 1, 0, 393224, 1, 0, 393225, 15, 0, 393226, 13, 0, 393227, 11, 0, 393228, -1073741809, 0, 393229, 1, 0, 458754, 1, 0, 458755, 14, 0, 458756, 11, 0, 458757, -1073741809, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 11, 0, 458763, 11, 0, 458764, -1073741809, 0, 458765, 1, 0, 524290, 1, 0, 524291, 11, 0, 524292, 11, 0, 524293, -1073741809, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 524298, 11, 0, 524299, 11, 0, 524300, -1073741809, 0, 524301, 1, 0, 589826, 1, 0, 589827, 11, 0, 589828, 11, 0, 589829, 11, 0, 589830, 11, 0, 589831, 1, 0, 589832, 1, 0, 589833, 11, 0, 589834, 11, 0, 589835, 11, 0, 589836, -1073741809, 0, 589837, 1, 0, 655362, 1, 0, 655363, 15, 0, 655364, 11, 0, 655365, 12, 0, 655366, 11, 0, 655367, 11, 0, 655368, 11, 0, 655369, 11, 0, 655370, 11, 0, 655371, 11, 0, 655372, 16, 0, 655373, 1, 0, 720898, 1, 0, 720899, 1, 0, 720900, 15, 0, 720901, 11, 0, 720902, 11, 0, 720903, 11, 0, 720904, 11, 0, 720905, 11, 0, 720906, 11, 0, 720907, 16, 0, 720908, 1, 0, 720909, 1, 0, 786434, 1, 0, 786435, 1, 0, 786436, 1, 0, 786437, 15, 0, 786438, 15, 0, 786439, 15, 0, 786440, 15, 0, 786441, 15, 0, 786442, 16, 0, 786443, 1, 0, 786444, 1, 0, 786445, 1, 0, 851970, 1, 0, 851971, 1, 0, 851972, 1, 0, 851973, 1, 0, 851974, 1, 0, 851975, 1, 0, 851976, 1, 0, 851977, 1, 0, 851978, 1, 0, 851979, 1, 0, 851980, 1, 0, 851981, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EnemySpawn" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+position = Vector2( 80, 80 )
+script = ExtResource( 1 )
+spawn_pool = [ 2, 2, 3, 1, 0 ]
+
+[node name="EnemySpawn2" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+position = Vector2( 80, 48 )
+script = ExtResource( 1 )
+spawn_pool = [ 1, 0, 1, 2 ]
+
+[node name="EnemySpawn3" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+position = Vector2( 48, 48 )
+script = ExtResource( 1 )
+spawn_pool = [ 3, 3, 1, 2, 0 ]
+
+[node name="EnemySpawn4" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+position = Vector2( 48, 80 )
+script = ExtResource( 1 )
+spawn_pool = [ 1, 1, 2, 3 ]
+
+[node name="FloorHole" type="Area2D" parent="." groups=[
+"Holes",
+] instance=ExtResource( 4 )]
+position = Vector2( 64, 64 )
+collision_layer = 0
+collision_mask = 3
+script = ExtResource( 5 )

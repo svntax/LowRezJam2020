@@ -6,6 +6,7 @@ const ROOM_SIZE = ROOM_TILES_SIZE * 8
 const RoomBase = preload("res://LevelGeneration/RoomBase.tscn")
 const StartingRoom = preload("res://LevelGeneration/Rooms/StartingRoom.tscn")
 const ExitRoom = preload("res://LevelGeneration/Rooms/ExitRoom.tscn")
+const DesertStartingRoom = preload("res://LevelGeneration/DesertRooms/DesertStartingRoom.tscn")
 const EnemyRooms = [
 	preload("res://LevelGeneration/Rooms/EnemiesRoom01.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom02.tscn"),
@@ -15,9 +16,24 @@ const EnemyRooms = [
 	preload("res://LevelGeneration/Rooms/EnemiesRoom06.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom07.tscn"),
 ]
+const DesertRooms = [
+	preload("res://LevelGeneration/DesertRooms/DesertRoom01.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom02.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom03.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom04.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom05.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom06.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertRoom07.tscn"),
+]
 const ItemRooms = [
 	preload("res://LevelGeneration/Rooms/ItemsRoom01.tscn"),
 	preload("res://LevelGeneration/Rooms/ItemsRoom02.tscn"),
+	preload("res://LevelGeneration/Rooms/ItemsRoom03.tscn"),
+]
+const DesertItemRooms = [
+	preload("res://LevelGeneration/DesertRooms/DesertItemRoom01.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertItemRoom02.tscn"),
+	preload("res://LevelGeneration/DesertRooms/DesertItemRoom03.tscn"),
 ]
 onready var enemy_room_index = 0
 onready var enemy_room_choices = []
@@ -28,6 +44,9 @@ onready var exit_cell = null
 
 onready var game_state = "NORMAL"
 onready var screenshake_active = false
+
+enum FloorThemes {DUNGEON, DESERT}
+onready var floor_theme = FloorThemes.DUNGEON
 
 onready var dungeon = null
 onready var minimap = $UILayer/Minimap
@@ -45,6 +64,15 @@ func _ready():
 	start_level()
 
 func start_level():
+	if Globals.current_level <= 1:
+		floor_theme = FloorThemes.DUNGEON
+	elif Globals.current_level == 2:
+		floor_theme = FloorThemes.DESERT
+	else:
+		if randf() < 0.5:
+			floor_theme = FloorThemes.DUNGEON
+		else:
+			floor_theme = FloorThemes.DESERT
 	player.set_velocity(0, 0)
 	player.reset_camera()
 	dungeon = null
@@ -132,8 +160,12 @@ func place_room(current_cell):
 	
 	# Generate the room's layout
 	if current_cell == dungeon.root:
-		var layout = StartingRoom.instance()
-		base.add_layout(layout)
+		if floor_theme == FloorThemes.DESERT:
+			var layout = DesertStartingRoom.instance()
+			base.add_layout(layout)
+		else:
+			var layout = StartingRoom.instance()
+			base.add_layout(layout)
 	elif current_cell == exit_cell:
 		# Don't generate the layout for the exit room, it will be done separately
 		pass
@@ -147,23 +179,34 @@ func place_room(current_cell):
 				item_room_chance = 0.8
 			if roll < item_room_chance:
 				# Item room
-				var i = randi() % ItemRooms.size()
-				layout = ItemRooms[i].instance()
+				layout = get_random_item_room_layout()
 			else:
 				# Enemy room
-				var i = get_next_enemy_room_layout()
-				layout = EnemyRooms[i].instance()
+				layout = get_random_enemy_room_layout()
 		else:
 			if roll < 0.08:
 				# Item room
-				var i = randi() % ItemRooms.size()
-				layout = ItemRooms[i].instance()
+				layout = get_random_item_room_layout()
 			else:
 				# Enemy room
-				var i = get_next_enemy_room_layout()
-				layout = EnemyRooms[i].instance()
+				layout = get_random_enemy_room_layout()
 		base.add_layout(layout)
 		base.set_lock_on_enter(true)
+
+func get_random_item_room_layout():
+	if floor_theme == FloorThemes.DESERT:
+		var i = randi() % DesertItemRooms.size()
+		return DesertItemRooms[i].instance()
+	else:
+		var i = randi() % ItemRooms.size()
+		return ItemRooms[i].instance()
+
+func get_random_enemy_room_layout():
+	var i = get_next_enemy_room_layout()
+	if floor_theme == FloorThemes.DESERT:
+		return DesertRooms[i].instance()
+	else:
+		return EnemyRooms[i].instance()
 
 # Returns the next enemy room layout out of the current list of
 # enemy room layouts, shuffled in order to minimize repetition
@@ -198,6 +241,7 @@ func check_enemy_room_complete(cell_x, cell_y):
 func game_over():
 	game_state == "GAME_OVER"
 	get_tree().paused = true
+	# TODO: show animation/effect before the menu
 	game_over_menu.update_stats()
 	game_over_menu.show()
 
