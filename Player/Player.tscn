@@ -285,6 +285,7 @@ anims/respawn = SubResource( 8 )
 
 [node name="HitWall" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+volume_db = 6.0
 
 [node name="HitEnemy" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )

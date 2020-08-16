@@ -16,6 +16,7 @@ onready var walk_duration_timer = $WalkDurationTImer
 onready var walk_trigger_timer = $WalkTriggerTimer
 
 func _ready():
+	randomize()
 	var choice = randi() % idle_frames.size()
 	idle_sprite.texture = idle_frames[choice]
 	walk_sprite.texture = walk_frames[choice]
