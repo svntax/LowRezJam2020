@@ -39,6 +39,7 @@ onready var wall_hit_sfx = $HitWall
 onready var enemy_hit_sfx = $HitEnemy
 onready var hurt_sfx = $Hurt
 onready var falling_sfx = $Falling
+onready var heart_pickup_sfx = $HeartPickup
 
 const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
@@ -72,6 +73,7 @@ func force_damage(amount : int) -> void:
 
 func heal(amount : int) -> void:
 	hp += amount
+	heart_pickup_sfx.play()
 	if hp > max_hp:
 		hp = max_hp
 	emit_signal("hp_changed", hp)
