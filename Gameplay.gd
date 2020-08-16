@@ -55,6 +55,8 @@ onready var game_over_menu = $UILayer/GameOverMenu
 onready var player = $Player
 onready var rooms = $Rooms
 onready var rooms_grid = [] # Grid of room instances
+onready var animation_player = $AnimationPlayer
+
 onready var enemies_root = $Enemies
 onready var theme_intro = $ThemeIntro
 onready var theme_loop = $ThemeLoop
@@ -107,6 +109,12 @@ func _process(_delta):
 	if dungeon != null and is_instance_valid(dungeon):
 		var cell_pos = Globals.get_cell_position(player)
 		dungeon.grid[cell_pos.x][cell_pos.y].visited = true
+	
+	if game_state == "GAME_OVER":
+		if theme_intro.playing:
+			theme_intro.stop()
+		if theme_loop.playing:
+			theme_loop.stop()
 
 # Dungeons are limited to a 10x10 cell size
 func generate_dungeon():
@@ -239,14 +247,15 @@ func check_enemy_room_complete(cell_x, cell_y):
 			return
 
 func game_over():
-	game_state == "GAME_OVER"
-	get_tree().paused = true
-	# TODO: show animation/effect before the menu
-	game_over_menu.update_stats()
-	game_over_menu.show()
+	game_state = "GAME_OVER"
+	player.hide()
+	player.collision_layer = 0
+	player.collision_mask = 0
+	animation_player.play("game_over")
 
 func _on_ThemeIntro_finished():
-	theme_loop.play()
+	if theme_loop != null:
+		theme_loop.play()
 
 func shake_camera(duration, magnitude, frequency):
 	if game_state != "NORMAL":
@@ -272,3 +281,8 @@ func shake_camera(duration, magnitude, frequency):
 		
 		player.camera.offset = Vector2()
 		screenshake_active = false
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	get_tree().paused = true
+	game_over_menu.update_stats()
+	game_over_menu.show()

@@ -20,7 +20,7 @@ onready var hp = max_hp
 signal hp_changed(value)
 onready var damage_immune = false
 
-enum States {NORMAL, FALLING}
+enum States {NORMAL, FALLING, DEAD}
 onready var state
 
 onready var game_root = get_tree().get_root().get_node("Gameplay")
@@ -67,6 +67,7 @@ func force_damage(amount : int) -> void:
 	if hp <= 0:
 		hp = 0
 		game_root.game_over()
+		set_state(States.DEAD)
 	else:
 		damage_animation_player.play("damage")
 	emit_signal("hp_changed", hp)
@@ -81,6 +82,8 @@ func heal(amount : int) -> void:
 func _physics_process(delta):
 	if state == States.NORMAL:
 		normal_state_logic()
+	elif state == States.DEAD:
+		dead_state_logic()
 	
 	# Rough scaling for aniamtion speed based on velocity
 	if velocity.length() > 3:
@@ -204,6 +207,12 @@ func falling_state_logic():
 	dash_particles.emitting = false
 	if dash_animation_player.current_animation == "flash_white":
 		dash_animation_player.play("rest")
+
+func dead_state_logic():
+	velocity = Vector2.ZERO
+	collision_layer = 0
+	collision_mask = 0
+	hide()
 
 func enter_state(new_state):
 	match new_state:

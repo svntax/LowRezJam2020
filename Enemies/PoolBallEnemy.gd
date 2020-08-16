@@ -171,7 +171,7 @@ func knockback(impulse : Vector2) -> void:
 	set_state(States.ROLL)
 
 func dash_damage():
-	# TODO: deal damage if knocked back with dash attack?
+	# Deal damage if knocked back with dash attack?
 	pass
 
 func can_deal_damage() -> bool:
