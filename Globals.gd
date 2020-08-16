@@ -4,6 +4,7 @@ const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 const NormalEnemy = preload("res://Enemies/PoolBallEnemy.tscn")
 const RollerEnemy = preload("res://Enemies/RollerEnemy.tscn")
+const JumperEnemy = preload("res://Enemies/JumperEnemy.tscn")
 
 var current_level = 1
 

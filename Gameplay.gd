@@ -12,6 +12,8 @@ const EnemyRooms = [
 	preload("res://LevelGeneration/Rooms/EnemiesRoom03.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom04.tscn"),
 	preload("res://LevelGeneration/Rooms/EnemiesRoom05.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom06.tscn"),
+	preload("res://LevelGeneration/Rooms/EnemiesRoom07.tscn"),
 ]
 const ItemRooms = [
 	preload("res://LevelGeneration/Rooms/ItemsRoom01.tscn"),

@@ -40,7 +40,7 @@ spawn_pool = [ 1, 1, 2, 0 ]
 
 [node name="EnemySpawn3" parent="SpawnPoints" instance=ExtResource( 3 )]
 position = Vector2( 64, 64 )
-spawn_pool = [ 2 ]
+spawn_pool = [ 2, 3, 3 ]
 
 [node name="FloorHole" parent="." instance=ExtResource( 4 )]
 position = Vector2( 48, 64 )

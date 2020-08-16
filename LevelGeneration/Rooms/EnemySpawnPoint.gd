@@ -1,6 +1,6 @@
 extends Position2D
 
-export (Array, int, "None", "Normal", "Roller") var spawn_pool = []
+export (Array, int, "None", "Normal", "Roller", "Jumper") var spawn_pool = []
 
 func _ready():
 	var choice = spawn_pool[randi() % spawn_pool.size()]
@@ -10,5 +10,9 @@ func _ready():
 		enemy.global_position = global_position
 	elif choice == 2:
 		var enemy = Globals.RollerEnemy.instance()
+		get_tree().get_root().get_node("Gameplay").add_enemy(enemy)
+		enemy.global_position = global_position
+	elif choice == 3:
+		var enemy = Globals.JumperEnemy.instance()
 		get_tree().get_root().get_node("Gameplay").add_enemy(enemy)
 		enemy.global_position = global_position

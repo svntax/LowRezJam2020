@@ -38,8 +38,7 @@ shape = SubResource( 1 )
 [node name="DamageCooldownTimer" type="Timer" parent="." index="7"]
 one_shot = true
 
-[node name="TrailParticles" parent="." index="8"]
-emitting = false
+[node name="TrailParticles" parent="." index="10"]
 texture = ExtResource( 4 )
 [connection signal="body_entered" from="PlayerDetect" to="." method="_on_PlayerDetect_body_entered"]
 [connection signal="body_exited" from="PlayerDetect" to="." method="_on_PlayerDetect_body_exited"]

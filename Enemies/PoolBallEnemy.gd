@@ -8,10 +8,11 @@ export (float) var damping = 0.95
 onready var velocity : Vector2 = Vector2()
 onready var reflected_velocity : Vector2 = Vector2()
 
-enum States {IDLE, WALK, CHARGE, ROLL, POP, FALLING}
+enum States {IDLE, WALK, CHARGE, ROLL, POP, FALLING, JUMP}
 onready var state = States.IDLE
 
 onready var game_root = get_tree().get_root().get_node("Gameplay")
+onready var body = $Body
 onready var roll_sprite = $Body/Roll
 onready var idle_sprite = $Body/Idle
 onready var walk_sprite = $Body/Walk
@@ -20,7 +21,8 @@ onready var flash_sprite = $Body/Flash
 onready var animation_player = $AnimationPlayer
 onready var walk_duration_timer = $WalkDurationTImer
 onready var walk_trigger_timer = $WalkTriggerTimer
-
+onready var shadow_roll_sprite = $ShadowRoll
+onready var shadow_standing_sprite = $ShadowStanding
 onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
 
@@ -54,6 +56,12 @@ func _physics_process(_delta):
 	
 	if state == States.ROLL:
 		velocity *= damping
+	if is_standing():
+		shadow_roll_sprite.hide()
+		shadow_standing_sprite.show()
+	else:
+		shadow_roll_sprite.show()
+		shadow_standing_sprite.hide()
 	
 	if velocity.length() <= STOP_THRESHOLD:
 		velocity.x = 0
@@ -183,6 +191,9 @@ func _on_WalkDurationTImer_timeout():
 
 func fall_in_hole():
 	set_state(States.FALLING)
+
+func is_standing():
+	return state == States.IDLE or state == States.WALK 
 
 func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
