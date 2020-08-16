@@ -36,7 +36,13 @@ func drop_heart():
 
 func shatter() -> void:
 	var roll = randf()
-	if roll < 0.2:
+	var heart_chance = 0.25
+	var player = get_tree().get_nodes_in_group("Players")[0]
+	if player.hp == 1:
+		heart_chance = 0.95
+	elif player.hp <= 2:
+		heart_chance = 0.75
+	if roll < heart_chance:
 		drop_heart()
 	sprite_normal.hide()
 	collision_shape.disabled = true
