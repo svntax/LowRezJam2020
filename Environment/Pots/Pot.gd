@@ -11,6 +11,7 @@ onready var reflected_velocity : Vector2 = Vector2()
 onready var sprite_normal = $Pot
 onready var sprite_broken = $Broken
 onready var collision_shape = $Collision
+onready var break_sfx = $Break
 
 func _physics_process(_delta):
 	var collision = move_and_collide(velocity + reflected_velocity)
@@ -35,6 +36,7 @@ func drop_heart():
 	heart.global_position = global_position
 
 func shatter() -> void:
+	break_sfx.play()
 	var roll = randf()
 	var heart_chance = 0.25
 	var player = get_tree().get_nodes_in_group("Players")[0]

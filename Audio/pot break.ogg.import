@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/pot break.ogg-031e1c2bab2b10383e59cebfca093840.oggstr"
+
+[deps]
+
+source_file="res://Audio/pot break.ogg"
+dest_files=[ "res://.import/pot break.ogg-031e1c2bab2b10383e59cebfca093840.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

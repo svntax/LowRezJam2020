@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Environment/Pots/pot_brown.png" type="Texture" id=1]
 [ext_resource path="res://Environment/Pots/Pot.gd" type="Script" id=2]
 [ext_resource path="res://Environment/Pots/pot_brown_broken.png" type="Texture" id=3]
+[ext_resource path="res://Audio/pot break.ogg" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3, 3.5 )
@@ -22,3 +23,7 @@ texture = ExtResource( 1 )
 visible = false
 position = Vector2( 0, 0.5 )
 shape = SubResource( 1 )
+
+[node name="Break" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
