@@ -27,6 +27,7 @@ onready var trail_particles = $TrailParticles
 onready var dash_particles = $DashParticles
 onready var falling_timer = $FallingTimer
 onready var falling_sfx = $FallingSound
+onready var charge_up_sfx = $ChargeSound
 
 func _ready():
 	walk_trigger_timer.wait_time = rand_range(1, 4)
@@ -207,6 +208,9 @@ func die():
 		var cell_pos = Globals.get_cell_position(self)
 		game_root.check_enemy_room_complete(cell_pos.x, cell_pos.y)
 		queue_free()
+
+func play_charge_up_sound():
+	charge_up_sfx.play()
 
 func _on_AnimationPlayer_animation_finished(anim):
 	if anim == "pop_out":
