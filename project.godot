@@ -28,7 +28,7 @@ _global_script_class_icons={
 
 config/name="Recoil Dungeon"
 run/main_scene="res://Main.tscn"
-config/icon="res://icon.png"
+config/icon="res://game_icon.png"
 
 [autoload]
 
