@@ -11,6 +11,7 @@ func _ready():
 	var window_size = OS.get_window_size()
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
 	bg_theme.play()
+	Globals.current_level = 1
 
 func _on_Start_pressed():
 	get_tree().change_scene("res://Gameplay.tscn")

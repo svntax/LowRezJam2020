@@ -137,6 +137,13 @@ func generate_dungeon():
 # connected rooms together.
 func place_room_instances():
 	var deepest_rooms = dungeon.get_deepest_rooms()
+	
+	# Hacky "fix" for weird edge case crash with empty array
+	if deepest_rooms.empty():
+		push_warning("Unhandled edge case: deepest_rooms array is empty. Just try again with a new dungeon")
+		start_level()
+		return
+	
 	var choice = randi() % deepest_rooms.size()
 	exit_cell = deepest_rooms[choice]
 	# Place the starting room and enemy rooms
@@ -240,7 +247,7 @@ func add_enemy(enemy_instance):
 
 func check_enemy_room_complete(cell_x, cell_y):
 	var room = rooms_grid[cell_x][cell_y]
-	for i in range(3):
+	for _i in range(3):
 		yield(get_tree().create_timer(0.5), "timeout")
 		if room.get_enemy_count() <= 0:
 			room.unlock_doors()
@@ -283,6 +290,7 @@ func shake_camera(duration, magnitude, frequency):
 		screenshake_active = false
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	get_tree().paused = true
-	game_over_menu.update_stats()
-	game_over_menu.show()
+	if anim_name == "game_over":
+		get_tree().paused = true
+		game_over_menu.update_stats()
+		game_over_menu.show()
