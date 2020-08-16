@@ -26,6 +26,9 @@ onready var dungeon_width = 10
 onready var dungeon_height = 10
 onready var exit_cell = null
 
+onready var game_state = "NORMAL"
+onready var screenshake_active = false
+
 onready var dungeon = null
 onready var minimap = $UILayer/Minimap
 onready var pause_menu = $UILayer/PauseMenu
@@ -193,9 +196,35 @@ func check_enemy_room_complete(cell_x, cell_y):
 			return
 
 func game_over():
+	game_state == "GAME_OVER"
 	get_tree().paused = true
 	game_over_menu.update_stats()
 	game_over_menu.show()
 
 func _on_ThemeIntro_finished():
 	theme_loop.play()
+
+func shake_camera(duration, magnitude, frequency):
+	if game_state != "NORMAL":
+		player.camera.offset = Vector2()
+		return
+	
+	if not screenshake_active:
+		screenshake_active = true
+		var start_time = OS.get_ticks_msec()
+		var _time = start_time
+		
+		while _time < start_time + (duration * 1000) and game_state == "NORMAL":
+			# Update _time to current ticks
+			_time = OS.get_ticks_msec()
+			
+			var offset = Vector2()
+			offset.x = rand_range(-magnitude, magnitude)
+			offset.y = rand_range(-magnitude, magnitude)
+			player.camera.offset = offset
+			
+			# Pause the loop based on frequency.
+			yield(get_tree().create_timer(1 / float(frequency)), "timeout")
+		
+		player.camera.offset = Vector2()
+		screenshake_active = false

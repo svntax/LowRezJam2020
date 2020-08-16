@@ -82,7 +82,7 @@ func slam_ground():
 		if area.is_in_group("Holes"):
 			fall_in_hole()
 			return
-	
+	get_tree().get_root().get_node("Gameplay").shake_camera(0.2, 1, 60)
 	for body in shockwave_area.get_overlapping_bodies():
 		if body.has_method("knockback"):
 			var dir = global_position.direction_to(body.global_position)

@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://LevelGeneration/Rooms/EnemySpawnPoint.gd" type="Script" id=1]
 [ext_resource path="res://LevelGeneration/DungeonTileset.tres" type="TileSet" id=2]
 [ext_resource path="res://LevelGeneration/EnemySpawn.tscn" type="PackedScene" id=3]
 [ext_resource path="res://LevelGeneration/Obstacles/FloorHole.tscn" type="PackedScene" id=4]
-[ext_resource path="res://LevelGeneration/Obstacles/FloorHole.gd" type="Script" id=5]
 
 [node name="EnemiesRoom03" type="Node2D"]
 
@@ -24,26 +22,22 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="EnemySpawn" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+[node name="EnemySpawn" parent="SpawnPoints" instance=ExtResource( 3 )]
 position = Vector2( 80, 80 )
-script = ExtResource( 1 )
-spawn_pool = [ 1, 0 ]
+spawn_pool = [ 1, 1, 2, 0 ]
 
-[node name="EnemySpawn2" type="Position2D" parent="SpawnPoints" instance=ExtResource( 3 )]
+[node name="EnemySpawn2" parent="SpawnPoints" instance=ExtResource( 3 )]
 position = Vector2( 80, 48 )
-script = ExtResource( 1 )
-spawn_pool = [ 1, 0 ]
+spawn_pool = [ 1, 0, 1, 2 ]
 
 [node name="EnemySpawn3" parent="SpawnPoints" instance=ExtResource( 3 )]
 position = Vector2( 48, 48 )
-spawn_pool = [ 0, 1 ]
+spawn_pool = [ 1, 1, 0, 2 ]
 
 [node name="EnemySpawn4" parent="SpawnPoints" instance=ExtResource( 3 )]
 position = Vector2( 48, 80 )
-spawn_pool = [ 0, 1 ]
+spawn_pool = [ 1, 1, 2, 0 ]
 
-[node name="FloorHole" type="Area2D" parent="." instance=ExtResource( 4 )]
+[node name="FloorHole" parent="." instance=ExtResource( 4 )]
 position = Vector2( 64, 64 )
 collision_layer = 0
-collision_mask = 3
-script = ExtResource( 5 )
