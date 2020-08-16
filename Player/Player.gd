@@ -53,6 +53,9 @@ func damage(amount : int) -> void:
 	if damage_immune or damage_animation_player.current_animation == "falling":
 		return
 	
+	force_damage(amount)
+
+func force_damage(amount : int) -> void:
 	hp -= amount
 	if hp <= 0:
 		hp = 0
@@ -84,10 +87,14 @@ func _physics_process(delta):
 	if velocity.length() <= STOP_THRESHOLD:
 		velocity.x = 0
 		velocity.y = 0
-		if top_animation_player.is_playing():
-			top_animation_player.stop()
-		if middle_animation_player.is_playing():
-			middle_animation_player.stop()
+		if state == States.NORMAL:
+			if top_animation_player.is_playing():
+				top_animation_player.stop()
+			if middle_animation_player.is_playing():
+				middle_animation_player.stop()
+		elif state == States.FALLING:
+			top_animation_player.playback_speed = 3
+			middle_animation_player.playback_speed = 2
 	
 	# Holding click charges the power bar
 	if mouse_pressed:
@@ -183,6 +190,7 @@ func enter_state(new_state):
 			body.show()
 			damage_animation_player.play("falling")
 			dash_animation_player.play("rest")
+			play_randomized_rolling_animation()
 
 func exit_state(previous_state):
 	pass
@@ -211,6 +219,12 @@ func launch() -> void:
 		power *= 2 + percent
 	vel *= power
 	set_velocity(vel.x, vel.y)
+	play_randomized_rolling_animation()
+	
+	if velocity.length() >= DASH_MIN_SPEED:
+		damage_immune = true
+
+func play_randomized_rolling_animation():
 	if randi() % 2 == 0:
 		top_animation_player.play("clockwise")
 	else:
@@ -219,9 +233,6 @@ func launch() -> void:
 		middle_animation_player.play("clockwise")
 	else:
 		middle_animation_player.play_backwards("clockwise")
-	
-	if velocity.length() >= DASH_MIN_SPEED:
-		damage_immune = true
 
 func knockback(impulse : Vector2) -> void:
 	velocity += impulse
@@ -254,5 +265,5 @@ func _on_DamageAnimationPlayer_animation_finished(anim):
 		global_position += velocity_before_falling.normalized() * -4
 		set_velocity(0, 0)
 		set_state(States.NORMAL)
-		damage(1)
+		force_damage(1)
 		damage_animation_player.play("respawn")

@@ -17,6 +17,8 @@ const ItemRooms = [
 	preload("res://LevelGeneration/Rooms/ItemsRoom01.tscn"),
 	preload("res://LevelGeneration/Rooms/ItemsRoom02.tscn"),
 ]
+onready var enemy_room_index = 0
+onready var enemy_room_choices = []
 
 onready var dungeon_width = 10
 onready var dungeon_height = 10
@@ -47,6 +49,14 @@ func start_level():
 		rooms_grid.append([])
 		for _y in range(dungeon_height):
 			rooms_grid[x].append(null)
+	
+	# Makes sure that enemy room layouts don't repeat
+	enemy_room_choices.clear()
+	for i in range(EnemyRooms.size()):
+		enemy_room_choices.append(i)
+	enemy_room_choices.shuffle()
+	enemy_room_index = 0
+	
 	generate_dungeon()
 	minimap.set_dungeon_reference(dungeon)
 
@@ -133,7 +143,7 @@ func place_room(current_cell):
 				layout = ItemRooms[i].instance()
 			else:
 				# Enemy room
-				var i = randi() % EnemyRooms.size()
+				var i = get_next_enemy_room_layout()
 				layout = EnemyRooms[i].instance()
 		else:
 			if roll < 0.08:
@@ -142,10 +152,21 @@ func place_room(current_cell):
 				layout = ItemRooms[i].instance()
 			else:
 				# Enemy room
-				var i = randi() % EnemyRooms.size()
+				var i = get_next_enemy_room_layout()
 				layout = EnemyRooms[i].instance()
 		base.add_layout(layout)
 		base.set_lock_on_enter(true)
+
+# Returns the next enemy room layout out of the current list of
+# enemy room layouts, shuffled in order to minimize repetition
+func get_next_enemy_room_layout():
+	var current_choice = enemy_room_choices[enemy_room_index % enemy_room_choices.size()]
+	enemy_room_index += 1
+	if enemy_room_index > enemy_room_choices.size():
+		enemy_room_index = 0
+		enemy_room_choices.shuffle()
+	
+	return current_choice
 
 func exit_reached():
 	# TODO: show some menu/animation first before moving to next level
