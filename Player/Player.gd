@@ -45,6 +45,8 @@ const POWER_BAR_BACK = Color("720d0d")
 const POWER_BAR_FRONT = Color("de9751")
 
 func _ready():
+	trail_particles.show()
+	dash_particles.show()
 	set_state(States.NORMAL)
 
 func _draw():
@@ -133,12 +135,12 @@ func _physics_process(delta):
 	else:
 		arrows.visible = false
 	
-#	# TODO: debug healing, remove later
+	# TODO: debug healing, disable for release
 #	if Input.is_action_just_pressed("ui_page_down"):
 #		damage(1)
 #	if Input.is_action_just_pressed("ui_page_up"):
 #		heal(1)
-#	# TODO: debug zoom out, remove later
+#	# TODO: debug zoom out, disable for release
 #	if Input.is_action_just_pressed("ui_focus_next"):
 #		if $Camera2D.zoom.x == 1:
 #			$Camera2D.zoom = Vector2(12, 12)
