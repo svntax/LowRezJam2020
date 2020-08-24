@@ -39,6 +39,10 @@ func _physics_process(_delta):
 	if Globals.get_cell_position(game_root.player) != Globals.get_cell_position(self):
 		velocity = Vector2.ZERO
 	
+	if state == States.FALLING:
+		collision_layer = 0
+		collision_mask = 0
+	
 	var collision = move_and_collide(velocity + reflected_velocity)
 	if collision:
 		velocity = velocity.bounce(collision.normal)
@@ -167,6 +171,9 @@ func set_velocity(vel : Vector2) -> void:
 	velocity.y = vel.y
 
 func knockback(impulse : Vector2) -> void:
+	if state == States.FALLING:
+		return
+	
 	velocity += impulse
 	set_state(States.ROLL)
 

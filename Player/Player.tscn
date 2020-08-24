@@ -137,7 +137,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("TrailParticles:visible")
+tracks/3/path = NodePath("TrailParticles:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -149,7 +149,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("DashParticles:visible")
+tracks/4/path = NodePath("DashParticles:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -252,9 +252,9 @@ drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 
 [node name="TrailParticles" type="CPUParticles2D" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0.498039 )
 show_behind_parent = true
+emitting = false
 amount = 2
 lifetime = 0.2
 speed_scale = 2.0
@@ -263,7 +263,6 @@ texture = ExtResource( 2 )
 gravity = Vector2( 0, 0 )
 
 [node name="DashParticles" type="CPUParticles2D" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0.133333 )
 show_behind_parent = true
 emitting = false

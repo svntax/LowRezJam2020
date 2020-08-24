@@ -50,7 +50,7 @@ func _ready():
 	set_state(States.NORMAL)
 
 func _draw():
-	if charge_time > 0:
+	if charge_time > 0 and state != States.FALLING:
 		draw_rect(Rect2(-6, -5, 12, 1), POWER_BAR_BACK)
 		draw_rect(Rect2(-6, -5, 12 * (charge_time / MAX_CHARGE_TIME), 1), POWER_BAR_FRONT)
 
@@ -110,7 +110,7 @@ func _physics_process(delta):
 			middle_animation_player.playback_speed = 2
 	
 	# Holding click charges the power bar
-	if mouse_pressed:
+	if mouse_pressed and state != States.FALLING:
 		charge_time += delta
 		if charge_time > MAX_CHARGE_TIME:
 			charge_time = MAX_CHARGE_TIME
@@ -294,7 +294,7 @@ func fall_in_hole():
 		set_state(States.FALLING)
 
 func can_fall_in_hole():
-	return damage_animation_player.current_animation != "falling"
+	return damage_animation_player.current_animation != "falling" and state != States.FALLING
 
 func _on_DamageAnimationPlayer_animation_finished(anim):
 	if anim == "falling":
