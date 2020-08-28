@@ -212,7 +212,6 @@ show_behind_parent = true
 [node name="Arrow" type="Sprite" parent="Arrows"]
 position = Vector2( 0.5, -8 )
 texture = ExtResource( 6 )
-region_enabled = true
 region_rect = Rect2( 0, 0, 7, 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

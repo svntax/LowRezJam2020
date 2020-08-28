@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var bg_theme = $BgTheme
+onready var game_starting = false
 
 func _ready():
 	randomize()
@@ -14,7 +15,11 @@ func _ready():
 	Globals.current_level = 1
 
 func _on_Start_pressed():
-	get_tree().change_scene("res://Gameplay.tscn")
+	if not game_starting:
+		game_starting = true
+		bg_theme.stop()
+		yield(get_tree().create_timer(0.2), "timeout")
+		get_tree().change_scene("res://Gameplay.tscn")
 
 func _on_Exit_pressed():
 	get_tree().quit()

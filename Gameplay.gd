@@ -62,7 +62,6 @@ onready var theme_intro = $ThemeIntro
 onready var theme_loop = $ThemeLoop
 
 func _ready():
-	theme_intro.play()
 	start_level()
 
 func start_level():
@@ -97,6 +96,9 @@ func start_level():
 	
 	generate_dungeon()
 	minimap.set_dungeon_reference(dungeon)
+	yield(get_tree(), "physics_frame")
+	yield(get_tree().create_timer(0.5), "timeout")
+	theme_intro.play()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):

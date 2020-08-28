@@ -51,9 +51,9 @@ __meta__ = {
 
 [node name="Start" type="Button" parent="."]
 margin_left = 4.0
-margin_top = 36.0
+margin_top = 34.0
 margin_right = 32.0
-margin_bottom = 45.0
+margin_bottom = 44.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
@@ -67,7 +67,7 @@ __meta__ = {
 
 [node name="Exit" type="Button" parent="."]
 margin_left = 4.0
-margin_top = 49.0
+margin_top = 48.0
 margin_right = 28.0
 margin_bottom = 58.0
 custom_styles/hover = SubResource( 1 )
